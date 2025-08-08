@@ -10,14 +10,19 @@
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: #121212;
             color: #E0E0E0;
+            /* Updated background */
+            background-image: url('https://i.pinimg.com/736x/a9/fb/b9/a9fbb91904d1baa087dc702827e4397c.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Roboto', sans-serif;
         }
-        .bg-dark { background-color: #121212; }
-        .bg-dark-secondary { background-color: #1E1E1E; }
+        /* Updated background colors to be semi-transparent overlays */
+        .bg-dark { background-color: rgba(18, 18, 18, 0.9); }
+        .bg-dark-secondary { background-color: rgba(30, 30, 30, 0.9); }
         .text-gold { color: #D4AF37; }
         .border-gold { border-color: #D4AF37; }
         .btn-gold {
@@ -42,17 +47,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Added an overlay for text readability on top of the body background */
+            background-color: rgba(0, 0, 0, 0.4); 
         }
-        .hero-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            opacity: 0.2;
-        }
+        /* Removed .hero-video style as the video is gone */
         .nav-link {
             position: relative;
             transition: color 0.3s;
@@ -72,7 +70,7 @@
             width: 100%;
         }
         .card {
-            background-color: #1E1E1E;
+            background-color: rgba(30, 30, 30, 0.85); /* Updated for transparency */
             border: 1px solid #333;
             transition: transform 0.3s, box-shadow 0.3s;
         }
@@ -120,10 +118,7 @@
         <div id="home" class="page active">
             <!-- Hero Section -->
             <section class="hero-section text-white text-center">
-                <video autoplay muted loop class="hero-video" poster="https://placehold.co/1920x1080/000000/333333?text=Trading+Chart">
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-chart-1909-large.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <!-- The background image is now controlled by the body and hero-section CSS -->
                 <div class="z-10 px-4">
                     <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Trade Currencies, Commodities, <br class="hidden md:block"> Precious Metals and Global Stock Indices</h1>
                     <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300">Unlock global markets with cutting-edge analysis and powerful insights. We provide the knowledge you need to navigate the financial world with confidence.</p>
