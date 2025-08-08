@@ -1,591 +1,637 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impact Trading - Stock Market Mentorship</title>
+    <title>Trading Hub – Fundamental Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
         }
-        .hero-bg {
-            background-color: #f0f4f8;
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
         }
-        .cta-button {
+        .bg-dark { background-color: #121212; }
+        .bg-dark-secondary { background-color: #1E1E1E; }
+        .text-gold { color: #D4AF37; }
+        .border-gold { border-color: #D4AF37; }
+        .btn-gold {
+            background-color: #D4AF37;
+            color: #121212;
             transition: all 0.3s ease;
         }
-        .cta-button:hover {
+        .btn-gold:hover {
+            background-color: #EACD69;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .section-title {
-            font-weight: 900;
-            font-size: 2.5rem;
-        }
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-        .testimonial-card {
-            min-width: 300px;
-        }
-        .sticky-cta {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .sticky-nav {
+            position: sticky;
+            top: 0;
             z-index: 50;
-            transition: transform 0.3s ease-in-out;
+            background-color: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(10px);
         }
-        .hide-sticky {
-            transform: translateY(100%);
+        .hero-section {
+            height: 85vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.2;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
         }
-        .gemini-result {
-            white-space: pre-wrap;
-            background-color: #f9fafb;
-            border-left: 4px solid #3b82f6;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1.5rem;
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #D4AF37;
+            transition: width 0.3s;
         }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .card {
+            background-color: #1E1E1E;
+            border: 1px solid #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.1);
+        }
+        /* Page transition styles */
+        .page { display: none; }
+        .page.active { display: block; }
+
     </style>
 </head>
-<body class="bg-white text-gray-800">
+<body class="bg-dark">
 
-    <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-40">
+    <!-- Header & Navigation -->
+    <header id="header" class="sticky-nav border-b border-gray-700">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-blue-600">
-                Impact Trading
-            </div>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="#learn" class="text-gray-600 hover:text-blue-600">What You'll Learn</a>
-                <a href="#ai-tools" class="text-gray-600 hover:text-blue-600">AI Tools</a>
-                <a href="#testimonials" class="text-gray-600 hover:text-blue-600">Testimonials</a>
-                <a href="#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
-            </div>
-            <a href="#form" class="cta-button bg-blue-600 text-white font-bold py-2 px-6 rounded-full hover:bg-blue-700">
-                Get Started
+            <a href="#" class="text-2xl font-bold text-white nav-link" data-page="home">
+                Trading<span class="text-gold">Hub</span>
             </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="nav-link text-gray-300 hover:text-gold active" data-page="home">Home</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold" data-page="markets">Our Markets</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold" data-page="blog">Fundamental Analysis Blog</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold" data-page="contact">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
         </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="home">Home</a>
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="markets">Our Markets</a>
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="blog">Fundamental Analysis Blog</a>
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="contact">Contact</a>
+        </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero-bg py-20">
-        <div class="container mx-auto px-6 text-center">
-            <div class="md:flex md:items-center md:justify-center">
-                <div class="md:w-1/2 md:text-left">
-                    <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-4">
-                        Stock Market is the Game of <span class="text-blue-600">Consistency</span>
-                    </h1>
-                    <p class="text-lg md:text-xl text-gray-600 mb-8">
-                        Let us be your consistency in the markets. Master the skills to trade with confidence.
-                    </p>
-                    <a href="#form" class="cta-button inline-block bg-blue-600 text-white font-bold text-lg py-4 px-10 rounded-full hover:bg-blue-700">
-                        Get Started
-                    </a>
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero-section text-white text-center">
+                <video autoplay muted loop class="hero-video" poster="https://placehold.co/1920x1080/000000/333333?text=Trading+Chart">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-chart-1909-large.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="z-10 px-4">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Trade Currencies, Commodities, <br class="hidden md:block"> Precious Metals and Global Stock Indices</h1>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300">Unlock global markets with cutting-edge analysis and powerful insights. We provide the knowledge you need to navigate the financial world with confidence.</p>
                 </div>
-                <div class="md:w-1/2 mt-10 md:mt-0 flex justify-center">
-                    <img src="https://placehold.co/400x400/E2E8F0/4A5568?text=Mentor" alt="Smiling Mentor" class="rounded-full shadow-2xl w-64 h-64 md:w-96 md:h-96 object-cover">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- What You'll Learn Section -->
-    <section id="learn" class="py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="section-title text-center mb-12">What You’ll Learn</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="bg-gray-50 p-8 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
-                    <div class="text-blue-500 text-5xl mb-4"><i class="fas fa-chart-line"></i></div>
-                    <h3 class="text-xl font-bold mb-2">Trading Strategies</h3>
-                    <p class="text-gray-600">Intraday, Swing & F&O Strategies for consistent profits.</p>
-                </div>
-                <div class="bg-gray-50 p-8 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
-                    <div class="text-blue-500 text-5xl mb-4"><i class="fas fa-book-open"></i></div>
-                    <h3 class="text-xl font-bold mb-2">Advanced Chart Reading</h3>
-                    <p class="text-gray-600">Decode market movements with advanced technical analysis.</p>
-                </div>
-                <div class="bg-gray-50 p-8 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
-                    <div class="text-blue-500 text-5xl mb-4"><i class="fas fa-brain"></i></div>
-                    <h3 class="text-xl font-bold mb-2">Trading Psychology</h3>
-                    <p class="text-gray-600">Master your emotions and make disciplined trading decisions.</p>
-                </div>
-                <div class="bg-gray-50 p-8 rounded-xl shadow-lg text-center hover:scale-105 transition-transform">
-                    <div class="text-blue-500 text-5xl mb-4"><i class="fas fa-shield-alt"></i></div>
-                    <h3 class="text-xl font-bold mb-2">Risk Management</h3>
-                    <p class="text-gray-600">Protect your capital with proven risk management techniques.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Gemini AI Tools Section -->
-    <section id="ai-tools" class="py-20 bg-blue-50">
-        <div class="container mx-auto px-6">
-            <h2 class="section-title text-center mb-12">✨ AI-Powered Trading Tools</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-                <!-- Personalized Learning Path -->
-                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-                    <h3 class="text-2xl font-bold text-center mb-4">Generate Your Learning Path</h3>
-                    <p class="text-center text-gray-600 mb-6">Tell us about yourself and our AI will create a custom learning plan for you.</p>
-                    <div class="mb-4">
-                        <label for="experience" class="block text-gray-700 font-bold mb-2">Your Experience Level:</label>
-                        <select id="experience" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="Complete Beginner">Complete Beginner</option>
-                            <option value="Some Knowledge, but not consistent">Some Knowledge, but not consistent</option>
-                            <option value="Experienced Trader, looking to improve">Experienced Trader, looking to improve</option>
-                        </select>
-                    </div>
-                    <div class="mb-6">
-                        <label for="goal" class="block text-gray-700 font-bold mb-2">Your Primary Goal:</label>
-                        <select id="goal" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="Generate a consistent side-income">Generate a consistent side-income</option>
-                            <option value="Become a full-time trader">Become a full-time trader</option>
-                            <option value="Master a specific skill like F&O">Master a specific skill like F&O</option>
-                        </select>
-                    </div>
-                    <button id="generatePathBtn" class="cta-button w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700">
-                        ✨ Create My Plan
-                    </button>
-                    <div id="learningPathResult"></div>
-                </div>
-
-                <!-- AI Trading Q&A -->
-                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-                    <h3 class="text-2xl font-bold text-center mb-4">Ask a Trading Question</h3>
-                     <p class="text-center text-gray-600 mb-6">Have a question? Our AI assistant can help explain trading concepts.</p>
-                    <div class="mb-4">
-                        <label for="question" class="block text-gray-700 font-bold mb-2">Your Question:</label>
-                        <input type="text" id="question" placeholder="e.g., What is a stop loss?" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <button id="askQuestionBtn" class="cta-button w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700">
-                        ✨ Get Answer
-                    </button>
-                    <div id="questionResult"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Course Highlights Section -->
-    <section class="bg-blue-600 text-white py-20">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                <div>
-                    <h3 class="text-4xl font-bold mb-2">4 Weeks</h3>
-                    <p class="text-blue-200">Comprehensive Duration</p>
-                </div>
-                <div>
-                    <h3 class="text-4xl font-bold mb-2">20+ Hours</h3>
-                    <p class="text-blue-200">Live Interactive Sessions</p>
-                </div>
-                <div>
-                    <h3 class="text-4xl font-bold mb-2">Lifetime</h3>
-                    <p class="text-blue-200">Expert Guidance & Support</p>
-                </div>
-                <div>
-                    <h3 class="text-4xl font-bold mb-2">Affordable</h3>
-                    <p class="text-blue-200">Best Value Program</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Learning Path Section -->
-    <section id="path" class="py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="section-title text-center mb-12">Our Proven Learning Path</h2>
-            <div class="relative">
-                <!-- The connecting line -->
-                <div class="hidden md:block absolute top-5 left-1/2 w-0.5 h-full bg-blue-200 -translate-x-1/2"></div>
-                
-                <!-- Step 1 -->
-                <div class="mb-8 flex justify-between items-center w-full md:flex-row-reverse">
-                    <div class="order-1 md:w-5/12"></div>
-                    <div class="z-20 flex items-center order-1 bg-blue-600 shadow-xl w-10 h-10 rounded-full">
-                        <h1 class="mx-auto font-semibold text-lg text-white">1</h1>
-                    </div>
-                    <div class="order-1 bg-white rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4">
-                        <h3 class="font-bold text-gray-800 text-xl">Foundation Building</h3>
-                        <p class="text-gray-600">Start with the basics of stock market and technical analysis.</p>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="mb-8 flex justify-between items-center w-full">
-                    <div class="order-1 md:w-5/12"></div>
-                    <div class="z-20 flex items-center order-1 bg-blue-600 shadow-xl w-10 h-10 rounded-full">
-                        <h1 class="mx-auto text-white font-semibold text-lg">2</h1>
-                    </div>
-                    <div class="order-1 bg-white rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4">
-                        <h3 class="font-bold text-gray-800 text-xl">Strategy Development</h3>
-                        <p class="text-gray-600">Learn and backtest our proven trading strategies.</p>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="mb-8 flex justify-between items-center w-full md:flex-row-reverse">
-                    <div class="order-1 md:w-5/12"></div>
-                    <div class="z-20 flex items-center order-1 bg-blue-600 shadow-xl w-10 h-10 rounded-full">
-                        <h1 class="mx-auto font-semibold text-lg text-white">3</h1>
-                    </div>
-                    <div class="order-1 bg-white rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4">
-                        <h3 class="font-bold text-gray-800 text-xl">Live Trading</h3>
-                        <p class="text-gray-600">Apply your knowledge in live market sessions with our mentors.</p>
-                    </div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="mb-8 flex justify-between items-center w-full">
-                    <div class="order-1 md:w-5/12"></div>
-                    <div class="z-20 flex items-center order-1 bg-blue-600 shadow-xl w-10 h-10 rounded-full">
-                        <h1 class="mx-auto text-white font-semibold text-lg">4</h1>
-                    </div>
-                    <div class="order-1 bg-white rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4">
-                        <h3 class="font-bold text-gray-800 text-xl">Advanced Concepts</h3>
-                        <p class="text-gray-600">Dive into F&O, psychology, and advanced risk management.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Student Testimonials Section -->
-    <section id="testimonials" class="bg-gray-50 py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="section-title text-center mb-12">What Our Students Say</h2>
-            <div class="flex overflow-x-auto space-x-8 pb-4">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card flex-shrink-0 bg-white p-6 rounded-lg shadow-md">
-                    <img src="https://placehold.co/300x150/E2E8F0/4A5568?text=WhatsApp+Review" alt="WhatsApp Review" class="rounded-md mb-4">
-                    <p class="text-gray-600 italic">"The best mentorship I've ever taken. My consistency has improved drastically."</p>
-                    <p class="font-bold mt-4">- Rohan S.</p>
-                </div>
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card flex-shrink-0 bg-white p-6 rounded-lg shadow-md">
-                    <img src="https://placehold.co/300x150/3B82F6/FFFFFF?text=Chat+Screenshot" alt="Chat Screenshot" class="rounded-md mb-4">
-                    <p class="text-gray-600 italic">"Clear, concise, and practical strategies. The live support is amazing."</p>
-                    <p class="font-bold mt-4">- Priya M.</p>
-                </div>
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card flex-shrink-0 bg-white p-6 rounded-lg shadow-md">
-                    <img src="https://placehold.co/300x150/E2E8F0/4A5568?text=WhatsApp+Review" alt="WhatsApp Review" class="rounded-md mb-4">
-                    <p class="text-gray-600 italic">"Finally profitable after years of struggle. Thank you Impact Trading!"</p>
-                    <p class="font-bold mt-4">- Ankit G.</p>
-                </div>
-                <!-- Testimonial 4 -->
-                <div class="testimonial-card flex-shrink-0 bg-white p-6 rounded-lg shadow-md">
-                    <img src="https://placehold.co/300x150/3B82F6/FFFFFF?text=Chat+Screenshot" alt="Chat Screenshot" class="rounded-md mb-4">
-                    <p class="text-gray-600 italic">"The risk management module alone is worth the price. Highly recommended."</p>
-                    <p class="font-bold mt-4">- Neha K.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Stats Section -->
-    <section id="stats" class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div>
-                    <h3 class="text-5xl font-black text-blue-600">5+</h3>
-                    <p class="text-xl text-gray-600 mt-2">Years Trading Experience</p>
-                </div>
-                <div>
-                    <h3 class="text-5xl font-black text-blue-600">2000+</h3>
-                    <p class="text-xl text-gray-600 mt-2">Students Mentored</p>
-                </div>
-                <div>
-                    <h3 class="text-5xl font-black text-blue-600">2.5L+</h3>
-                    <p class="text-xl text-gray-600 mt-2">Followers on Social Media</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Program & Pricing Callout -->
-    <section id="pricing" class="bg-blue-50 py-20">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold">Zero to Hero Live Mentorship Program</h2>
-            <p class="text-gray-600 mt-2 mb-8">Join the next batch and start your journey to profitable trading.</p>
+            </section>
             
-            <div id="countdown" class="text-4xl font-bold text-blue-600 mb-4"></div>
-            <p class="text-gray-500 mb-8">Enrollment closes soon!</p>
+            <!-- Value Proposition -->
+            <section class="py-16 sm:py-24 bg-dark">
+                <div class="container mx-auto px-6 text-center">
+                    <div class="grid md:grid-cols-3 gap-12">
+                        <div class="flex flex-col items-center">
+                            <div class="bg-dark-secondary p-5 rounded-full mb-4 border border-gray-700">
+                                <i class="fas fa-chart-line fa-2x text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">In-Depth Analysis</h3>
+                            <p class="text-gray-400">Access comprehensive fundamental analysis to make informed trading decisions.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-dark-secondary p-5 rounded-full mb-4 border border-gray-700">
+                                <i class="fas fa-book-open fa-2x text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Educational Resources</h3>
+                            <p class="text-gray-400">Learn the intricacies of the markets with our extensive blog and guides.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-dark-secondary p-5 rounded-full mb-4 border border-gray-700">
+                                <i class="fas fa-globe fa-2x text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Global Market Coverage</h3>
+                            <p class="text-gray-400">Explore opportunities across Forex, commodities, indices, and more.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="inline-block bg-white p-8 rounded-xl shadow-2xl border border-blue-200">
-                <p class="text-lg">Next Batch Starts: <span class="font-bold">15th Sept 2024</span></p>
-                <p class="text-5xl font-black my-4">₹5000 <span class="text-lg font-normal text-gray-500">+18% GST</span></p>
-                <a href="#form" class="cta-button w-full bg-blue-600 text-white font-bold text-lg py-4 px-10 rounded-full hover:bg-blue-700">
-                    Enroll Now
-                </a>
-            </div>
-        </div>
-    </section>
+            <!-- Why Choose Us Section -->
+            <section class="py-16 sm:py-24 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Why Traders Choose Our Insights</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="card p-8 rounded-lg">
+                            <i class="fas fa-tags fa-2x text-gold mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Competitive Pricing Analysis</h3>
+                            <p class="text-gray-400">We break down the factors that influence spreads and commissions, helping you understand the cost structures of the market and identify value.</p>
+                        </div>
+                        <div class="card p-8 rounded-lg">
+                            <i class="fas fa-desktop fa-2x text-gold mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Easy-to-use Platforms Guide</h3>
+                            <p class="text-gray-400">Our guides and reviews focus on the user experience of popular trading platforms, ensuring you can find a tool that is both powerful and intuitive.</p>
+                        </div>
+                        <div class="card p-8 rounded-lg">
+                            <i class="fas fa-broadcast-tower fa-2x text-gold mb-4"></i>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Global Trading Education</h3>
+                            <p class="text-gray-400">We provide educational content on trading in different global sessions and understanding the nuances of international markets.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Lead Capture Form -->
-    <section id="form" class="py-20">
-        <div class="container mx-auto px-6 md:w-2/3 lg:w-1/2">
-            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-                <h2 class="text-3xl font-bold text-center mb-6">Take the First Step</h2>
-                <form id="leadForm">
-                    <div class="mb-4">
-                        <label for="name" class="block text-gray-700 font-bold mb-2">Full Name</label>
-                        <input type="text" id="name" name="name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <!-- Platform Showcase -->
+            <section class="py-16 sm:py-24 bg-dark">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Analysis on Leading Platforms</h2>
+                    <p class="max-w-2xl mx-auto text-gray-400 mb-12">We provide insights and guides for the industry's most popular and trusted trading platforms.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+                        <img src="https://placehold.co/300x150/1E1E1E/D4AF37?text=MetaTrader+4" alt="MetaTrader 4" class="mx-auto rounded-lg grayscale hover:grayscale-0 transition-all duration-300">
+                        <img src="https://placehold.co/300x150/1E1E1E/D4AF37?text=MetaTrader+5" alt="MetaTrader 5" class="mx-auto rounded-lg grayscale hover:grayscale-0 transition-all duration-300">
+                        <img src="https://placehold.co/300x150/1E1E1E/D4AF37?text=cTrader" alt="cTrader" class="mx-auto rounded-lg grayscale hover:grayscale-0 transition-all duration-300">
+                        <img src="https://placehold.co/300x150/1E1E1E/D4AF37?text=TradingView" alt="TradingView" class="mx-auto rounded-lg grayscale hover:grayscale-0 transition-all duration-300">
                     </div>
-                    <div class="mb-4">
-                        <label for="phone" class="block text-gray-700 font-bold mb-2">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+            </section>
+
+            <!-- Client Logos -->
+            <section class="py-12 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <h3 class="text-center text-gray-400 text-sm font-semibold uppercase tracking-wider mb-8">Providing insights trusted by professionals who work with</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
+                        <img src="https://placehold.co/120x60/FFFFFF/1E1E1E?text=UBS" class="h-8 opacity-60 hover:opacity-100 transition" alt="UBS Logo">
+                        <img src="https://placehold.co/120x60/FFFFFF/1E1E1E?text=Bank+of+America" class="h-8 opacity-60 hover:opacity-100 transition" alt="Bank of America Logo">
+                        <img src="https://placehold.co/120x60/FFFFFF/1E1E1E?text=RBS" class="h-8 opacity-60 hover:opacity-100 transition" alt="RBS Logo">
+                        <img src="https://placehold.co/120x60/FFFFFF/1E1E1E?text=J.P.+Morgan" class="h-8 opacity-60 hover:opacity-100 transition" alt="JP Morgan Logo">
+                        <img src="https://placehold.co/120x60/FFFFFF/1E1E1E?text=Goldman+Sachs" class="h-8 opacity-60 hover:opacity-100 transition" alt="Goldman Sachs Logo">
                     </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-gray-700 font-bold mb-2">Email Address</label>
-                        <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    </div>
-                    <div class="mb-6">
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" checked>
-                            <span class="ml-2 text-gray-700">Receive updates on WhatsApp</span>
-                        </label>
-                    </div>
-                    <button type="submit" class="cta-button w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700">
-                        Submit & Get Callback
-                    </button>
-                </form>
-                <div id="form-message" class="mt-4 text-center"></div>
-            </div>
+                </div>
+            </section>
+
+
+            <!-- CTA Section -->
+            <section class="py-16 sm:py-24 bg-dark">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl font-bold text-white mb-4">Ready to Deepen Your Market Knowledge?</h2>
+                    <p class="text-gray-400 max-w-xl mx-auto mb-8">Explore our analytical tools and educational resources to sharpen your trading strategy.</p>
+                    <a href="#" class="btn-gold font-bold py-3 px-8 rounded-lg text-lg" data-page="markets">Explore Our Markets</a>
+                </div>
+            </section>
         </div>
-    </section>
+
+        <!-- Our Markets Page -->
+        <div id="markets" class="page">
+            <section class="py-16 sm:py-24 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 text-white">Tradable Markets</h1>
+                    <p class="text-lg text-gray-400 text-center max-w-3xl mx-auto mb-16">Gain insights into a diverse range of global markets. We provide in-depth fundamental analysis to help you understand the forces that drive market movements.</p>
+
+                    <!-- Forex -->
+                    <div class="mb-20">
+                        <h2 class="text-3xl font-bold text-gold mb-6 border-l-4 border-gold pl-4">Forex</h2>
+                        <p class="text-gray-300 mb-8">The foreign exchange market is the largest and most liquid market in the world. Our analysis focuses on macroeconomic indicators, central bank policies, and geopolitical events that influence currency pairs like EUR/USD, GBP/JPY, and AUD/CAD.</p>
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <!-- Market Analysis Preview Card -->
+                            <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Central Bank Rate Decisions</h3>
+                                    <p class="text-gray-400 mb-4">An analysis of the Federal Reserve's latest minutes and their potential impact on the US Dollar.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                            <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Inflation Reports & Forex</h3>
+                                    <p class="text-gray-400 mb-4">How the latest CPI data from the Eurozone could affect the EUR/USD pair in the coming weeks.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                            <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Geopolitical Tensions & Safe Havens</h3>
+                                    <p class="text-gray-400 mb-4">Examining the role of the Swiss Franc (CHF) and Japanese Yen (JPY) as safe-haven assets.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commodities -->
+                    <div class="mb-20">
+                        <h2 class="text-3xl font-bold text-gold mb-6 border-l-4 border-gold pl-4">Commodities</h2>
+                        <p class="text-gray-300 mb-8">Trade on the price movements of hard and soft commodities. We analyze supply and demand dynamics, weather patterns, and industrial consumption for assets like Crude Oil, Gold, Silver, and agricultural products.</p>
+                        <div class="grid md:grid-cols-3 gap-8">
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">OPEC+ Production Cuts</h3>
+                                    <p class="text-gray-400 mb-4">What the latest decisions from OPEC+ mean for the future price of WTI and Brent Crude oil.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Gold as an Inflation Hedge</h3>
+                                    <p class="text-gray-400 mb-4">A deep dive into the historical performance of Gold during periods of high inflation.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Agricultural Supply Chains</h3>
+                                    <p class="text-gray-400 mb-4">How global logistics issues are impacting the prices of commodities like wheat and corn.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Indices -->
+                    <div class="mb-20">
+                        <h2 class="text-3xl font-bold text-gold mb-6 border-l-4 border-gold pl-4">Indices</h2>
+                        <p class="text-gray-300 mb-8">Get exposure to a whole economy or sector with stock indices. Our analysis covers corporate earnings reports, economic growth forecasts, and investor sentiment for major indices like the S&P 500, NASDAQ, FTSE 100, and DAX 40.</p>
+                         <div class="grid md:grid-cols-3 gap-8">
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">S&P 500 Earnings Season</h3>
+                                    <p class="text-gray-400 mb-4">A preview of the upcoming earnings season and which sectors to watch in the S&P 500.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Tech Sector Volatility in NASDAQ</h3>
+                                    <p class="text-gray-400 mb-4">Analyzing the fundamental drivers behind the recent volatility in major tech stocks.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Brexit's Lingering Effect on FTSE 100</h3>
+                                    <p class="text-gray-400 mb-4">A look at how the UK's economic landscape continues to shape its leading stock index.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Crypto -->
+                    <div>
+                        <h2 class="text-3xl font-bold text-gold mb-6 border-l-4 border-gold pl-4">Crypto</h2>
+                        <p class="text-gray-300 mb-8">The digital frontier of finance. We cover the fundamental factors driving the volatile cryptocurrency market, including adoption rates, regulatory news, technological developments (like network upgrades), and the broader macro-environment's impact on assets like Bitcoin and Ethereum.</p>
+                         <div class="grid md:grid-cols-3 gap-8">
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Bitcoin Halving Event Analysis</h3>
+                                    <p class="text-gray-400 mb-4">Understanding the supply shock of the Bitcoin halving and its historical price impact.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Ethereum's Move to Proof-of-Stake</h3>
+                                    <p class="text-gray-400 mb-4">The fundamental shift in Ethereum's consensus mechanism and its implications for investors.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                             <div class="card rounded-lg overflow-hidden">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">Regulatory Landscape for Crypto</h3>
+                                    <p class="text-gray-400 mb-4">How potential government regulations could shape the future of the digital asset class.</p>
+                                    <a href="#" class="font-semibold text-gold hover:text-white transition-colors" data-page="blog">Read More &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Blog Page -->
+        <div id="blog" class="page">
+            <section class="py-16 sm:py-24 bg-dark">
+                <div class="container mx-auto px-6">
+                    <h1 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white">Fundamental Analysis Blog</h1>
+                    <div class="flex flex-col lg:flex-row gap-12">
+                        <!-- Blog Posts -->
+                        <div class="w-full lg:w-2/3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <!-- Blog Post Card -->
+                                <div class="card rounded-lg overflow-hidden flex flex-col">
+                                    <img src="https://placehold.co/600x400/1E1E1E/D4AF37?text=Analysis" alt="Blog Post Image" class="w-full h-48 object-cover">
+                                    <div class="p-6 flex flex-col flex-grow">
+                                        <h3 class="text-xl font-bold text-white mb-2">Understanding Non-Farm Payrolls and its Market Impact</h3>
+                                        <p class="text-gray-400 mb-4 flex-grow">The Non-Farm Payrolls (NFP) report is one of the most significant economic indicators from the United States. We break down what it measures and why it causes such high volatility in the Forex markets...</p>
+                                        <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
+                                    </div>
+                                </div>
+                                <!-- More Blog Posts -->
+                                <div class="card rounded-lg overflow-hidden flex flex-col">
+                                    <img src="https://placehold.co/600x400/1E1E1E/D4AF37?text=Commodities" alt="Blog Post Image" class="w-full h-48 object-cover">
+                                    <div class="p-6 flex flex-col flex-grow">
+                                        <h3 class="text-xl font-bold text-white mb-2">The Role of Interest Rates in Valuing Stock Indices</h3>
+                                        <p class="text-gray-400 mb-4 flex-grow">Central bank interest rates are a cornerstone of fundamental analysis for stock indices. Higher rates can make borrowing more expensive for companies and consumers, potentially slowing economic growth...</p>
+                                        <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
+                                    </div>
+                                </div>
+                                <div class="card rounded-lg overflow-hidden flex flex-col">
+                                    <img src="https://placehold.co/600x400/1E1E1E/D4AF37?text=Forex" alt="Blog Post Image" class="w-full h-48 object-cover">
+                                    <div class="p-6 flex flex-col flex-grow">
+                                        <h3 class="text-xl font-bold text-white mb-2">How Geopolitics Affects Crude Oil Prices</h3>
+                                        <p class="text-gray-400 mb-4 flex-grow">Crude oil is highly sensitive to geopolitical events, especially in the Middle East. Tensions can threaten supply routes and lead to price spikes. This article explores historical examples...</p>
+                                        <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
+                                    </div>
+                                </div>
+                                <div class="card rounded-lg overflow-hidden flex flex-col">
+                                    <img src="https://placehold.co/600x400/1E1E1E/D4AF37?text=Crypto" alt="Blog Post Image" class="w-full h-48 object-cover">
+                                    <div class="p-6 flex flex-col flex-grow">
+                                        <h3 class="text-xl font-bold text-white mb-2">Analyzing On-Chain Data for Cryptocurrency Insights</h3>
+                                        <p class="text-gray-400 mb-4 flex-grow">Beyond price charts, on-chain data provides a fundamental look into a cryptocurrency's health. We look at metrics like active addresses, transaction volume, and hash rate to gauge network activity...</p>
+                                        <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <aside class="w-full lg:w-1/3">
+                            <div class="bg-dark-secondary p-6 rounded-lg">
+                                <!-- Search -->
+                                <div class="mb-8">
+                                    <h4 class="text-lg font-bold text-white mb-4">Search</h4>
+                                    <div class="relative">
+                                        <input type="text" placeholder="Search articles..." class="w-full bg-gray-800 border border-gray-600 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-gold">
+                                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gold">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Recent Posts -->
+                                <div class="mb-8">
+                                    <h4 class="text-lg font-bold text-white mb-4">Recent Posts</h4>
+                                    <ul class="space-y-3">
+                                        <li><a href="#" class="text-gray-400 hover:text-gold">Understanding Non-Farm Payrolls...</a></li>
+                                        <li><a href="#" class="text-gray-400 hover:text-gold">The Role of Interest Rates...</a></li>
+                                        <li><a href="#" class="text-gray-400 hover:text-gold">How Geopolitics Affects Crude Oil...</a></li>
+                                        <li><a href="#" class="text-gray-400 hover:text-gold">Analyzing On-Chain Data...</a></li>
+                                    </ul>
+                                </div>
+                                <!-- Categories -->
+                                <div>
+                                    <h4 class="text-lg font-bold text-white mb-4">Categories</h4>
+                                    <ul class="space-y-3">
+                                        <li><a href="#" class="text-gray-400 hover:text-gold flex justify-between">Forex <span class="text-gray-500">12</span></a></li>
+                                        <li><a href="#" class="text-gray-400 hover:text-gold flex justify-between">Commodities <span class="text-gray-500">8</span></a></li>
+                                        <li><a href="#" class="text-gray-400 hover:text-gold flex justify-between">Indices <span class="text-gray-500">15</span></a></li>
+                                        <li><a href="#" class="text-gray-400 hover:text-gold flex justify-between">Crypto <span class="text-gray-500">5</span></a></li>
+                                        <li><a href="#" class="text-gray-400 hover:text-gold flex justify-between">Economic Indicators <span class="text-gray-500">10</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <section class="py-16 sm:py-24 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <div class="text-center">
+                        <h1 class="text-4xl md:text-5xl font-bold text-white">Get In Touch</h1>
+                        <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Have a question, suggestion, or feedback? We'd love to hear from you. Reach out to us, and we'll get back to you as soon as possible.</p>
+                    </div>
+                    <div class="mt-16 max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+                        <!-- Contact Form -->
+                        <div class="bg-dark p-8 rounded-lg border border-gray-700">
+                            <h2 class="text-2xl font-bold text-white mb-6">Send us a Message</h2>
+                            <form id="contact-form">
+                                <div class="mb-4">
+                                    <label for="name" class="block text-gray-300 mb-2">Name</label>
+                                    <input type="text" id="name" name="name" class="w-full bg-gray-800 border border-gray-600 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-gold" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="email" class="block text-gray-300 mb-2">Email</label>
+                                    <input type="email" id="email" name="email" class="w-full bg-gray-800 border border-gray-600 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-gold" required>
+                                </div>
+                                <div class="mb-6">
+                                    <label for="message" class="block text-gray-300 mb-2">Message</label>
+                                    <textarea id="message" name="message" rows="5" class="w-full bg-gray-800 border border-gray-600 rounded-lg py-2 px-4 text-white focus:outline-none focus:border-gold" required></textarea>
+                                </div>
+                                <button type="submit" class="btn-gold font-bold w-full py-3 px-6 rounded-lg">Submit</button>
+                                <p id="form-status" class="text-center mt-4"></p>
+                            </form>
+                        </div>
+                        <!-- Contact Info -->
+                        <div class="space-y-8">
+                            <div class="flex items-start">
+                                <div class="bg-dark-secondary p-4 rounded-full border border-gold mr-6">
+                                    <i class="fas fa-envelope fa-lg text-gold"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">Email</h3>
+                                    <p class="text-gray-400">Our support team is available to answer your questions.</p>
+                                    <a href="mailto:support@tradinghub.com" class="text-gold hover:underline">support@tradinghub.com</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-dark-secondary p-4 rounded-full border border-gold mr-6">
+                                    <i class="fas fa-phone fa-lg text-gold"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">Phone</h3>
+                                    <p class="text-gray-400">Contact us during business hours for direct support.</p>
+                                    <a href="tel:+447458157780" class="text-gold hover:underline">+44 7458 157780</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-dark-secondary p-4 rounded-full border border-gold mr-6">
+                                    <i class="fas fa-clock fa-lg text-gold"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">Office Hours</h3>
+                                    <p class="text-gray-400">Monday - Friday: 9:00 AM - 5:00 PM (GMT)</p>
+                                    <p class="text-gray-400">Saturday - Sunday: Closed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Impact Trading</h3>
-                    <p class="text-gray-400">Your trusted partner in the journey of stock market mastery.</p>
+    <footer class="bg-dark-secondary border-t border-gray-700">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold text-white mb-4">Trading<span class="text-gold">Hub</span></h3>
+                    <p class="text-gray-400">Providing in-depth fundamental analysis for the modern trader.</p>
                 </div>
+                <!-- Links -->
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
-                    <p class="text-gray-400 mb-2"><i class="fas fa-envelope mr-2"></i> support@impacttrading.com</p>
-                    <p class="text-gray-400"><i class="fab fa-whatsapp mr-2"></i> +91 12345 67890</p>
+                    <h4 class="font-bold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="home">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="markets">Our Markets</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="blog">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="contact">Contact</a></li>
+                    </ul>
                 </div>
+                <!-- Contact Info -->
                 <div>
-                    <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                    <h4 class="font-bold text-white mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2 text-gold"></i> support@tradinghub.com</li>
+                        <li><i class="fas fa-phone mr-2 text-gold"></i> +44 7458 157780</li>
+                    </ul>
+                </div>
+                <!-- Socials -->
+                <div>
+                    <h4 class="font-bold text-white mb-4">Follow Us</h4>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-2x"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-2x"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-2x"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-gold"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-gold"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-gold"><i class="fab fa-youtube fa-lg"></i></a>
                     </div>
                 </div>
             </div>
-            <hr class="border-gray-700 my-8">
-            <div class="text-center text-gray-500">
-                <p>&copy; 2024 Impact Trading. All Rights Reserved.</p>
-                <p class="text-sm mt-2">Disclaimer: Stock market investments are subject to market risks. Read all scheme related documents carefully. We are not SEBI registered. The content is for educational purposes only.</p>
+            <!-- Disclaimer -->
+            <div class="mt-12 pt-8 border-t border-gray-700">
+                <h4 class="font-bold text-white mb-2">Disclaimer</h4>
+                <p class="text-xs text-gray-500 mb-4">Trading Hub provides educational and analytical content for informational purposes only. The information on this site is not intended to be, and does not constitute, financial advice or any other advice. Trading foreign exchange, commodities, and other financial instruments on margin carries a high level of risk and may not be suitable for all investors. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite.</p>
+                <div class="text-center text-gray-500 text-sm">
+                    <span>&copy; 2024 Trading Hub. All Rights Reserved.</span> |
+                    <a href="#" class="hover:text-gold">Privacy Policy</a> |
+                    <a href="#" class="hover:text-gold">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
+    
+    <!-- WhatsApp Chat Icon -->
+    <a href="https://wa.me/447458157780" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all">
+        <i class="fab fa-whatsapp fa-2x"></i>
+    </a>
 
-    <!-- Sticky CTA -->
-    <div id="sticky-cta" class="sticky-cta bg-white p-4 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] hide-sticky">
-        <div class="container mx-auto flex justify-between items-center">
-            <p class="font-bold text-lg hidden sm:block">Ready to start your trading journey?</p>
-            <a href="#form" class="cta-button w-full sm:w-auto text-center bg-blue-600 text-white font-bold py-3 px-6 rounded-full hover:bg-blue-700">
-                Enroll Now
-            </a>
-        </div>
-    </div>
 
     <script>
-        // --- Gemini API Call Function ---
-        async function callGeminiAPI(prompt, resultElement, buttonElement) {
-            // Show loader and disable button
-            resultElement.innerHTML = '<div class="loader"></div>';
-            buttonElement.disabled = true;
-            buttonElement.classList.add('opacity-50', 'cursor-not-allowed');
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('#mobile-menu a');
+            const pageLinks = document.querySelectorAll('a[data-page]');
+            const pages = document.querySelectorAll('.page');
 
-            const apiKey = ""; // API key will be injected by the environment
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            
-            const payload = {
-                contents: [{
-                    parts: [{ text: prompt }]
-                }]
-            };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+            // --- Navigation Logic ---
+            function switchPage(pageId) {
+                // Hide all pages
+                pages.forEach(page => {
+                    page.classList.remove('active');
                 });
 
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.statusText}`);
+                // Show the target page
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
                 }
 
-                const data = await response.json();
-                
-                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content.parts.length > 0) {
-                    const text = data.candidates[0].content.parts[0].text;
-                    resultElement.innerHTML = `<div class="gemini-result">${text}</div>`;
-                } else {
-                     throw new Error('No content received from API.');
-                }
-            } catch (error) {
-                console.error("Gemini API call failed:", error);
-                resultElement.innerHTML = `<div class="gemini-result text-red-600">Sorry, something went wrong. Please try again.</div>`;
-            } finally {
-                // Re-enable button
-                buttonElement.disabled = false;
-                buttonElement.classList.remove('opacity-50', 'cursor-not-allowed');
-            }
-        }
-
-        // --- AI Learning Path Generator ---
-        const generatePathBtn = document.getElementById('generatePathBtn');
-        if (generatePathBtn) {
-            generatePathBtn.addEventListener('click', () => {
-                const experience = document.getElementById('experience').value;
-                const goal = document.getElementById('goal').value;
-                const resultElement = document.getElementById('learningPathResult');
-
-                const prompt = `You are an expert trading mentor for "Impact Trading". A potential student has the following profile:
-                - Experience Level: ${experience}
-                - Primary Goal: ${goal}
-
-                Create a personalized 4-week learning plan for this student. The plan should be encouraging and break down the journey into simple, actionable steps. Structure it week-by-week. For each week, list 2-3 key topics they should focus on, drawing from our course modules: Trading Strategies, Advanced Chart Reading, Trading Psychology, and Risk Management. Keep the tone professional, clear, and motivational. Do not give financial advice. Start with a welcoming sentence.`;
-                
-                callGeminiAPI(prompt, resultElement, generatePathBtn);
-            });
-        }
-
-        // --- AI Trading Q&A ---
-        const askQuestionBtn = document.getElementById('askQuestionBtn');
-        if (askQuestionBtn) {
-            askQuestionBtn.addEventListener('click', () => {
-                const question = document.getElementById('question').value;
-                const resultElement = document.getElementById('questionResult');
-
-                if (!question.trim()) {
-                    resultElement.innerHTML = `<div class="gemini-result text-red-600">Please enter a question.</div>`;
-                    return;
-                }
-
-                const prompt = `You are a helpful AI trading assistant for "Impact Trading". A user has asked the following question: "${question}". 
-                
-                Please answer this question in a clear, concise, and easy-to-understand way for a beginner. Avoid jargon where possible, or explain it simply if necessary. Do not provide any financial advice, price predictions, or recommendations to buy/sell. Your role is purely educational.`;
-
-                callGeminiAPI(prompt, resultElement, askQuestionBtn);
-            });
-        }
-
-
-        // Countdown Timer
-        const countdownElement = document.getElementById('countdown');
-        if (countdownElement) {
-            // Setting a future date for demonstration purposes
-            const deadline = new Date();
-            deadline.setDate(deadline.getDate() + 25); 
-            deadline.setHours(23, 59, 59);
-
-            const x = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = deadline - now;
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-                if (distance < 0) {
-                    clearInterval(x);
-                    countdownElement.innerHTML = "ENROLLMENT CLOSED";
-                }
-            }, 1000);
-        }
-
-        // Lead Form Submission
-        const leadForm = document.getElementById('leadForm');
-        const formMessage = document.getElementById('form-message');
-        if (leadForm) {
-            leadForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                // In a real application, you would send this data to a server,
-                // Google Sheet, or email service.
-                const formData = new FormData(this);
-                console.log("Form Submitted:");
-                for (let [key, value] of formData.entries()) {
-                    console.log(key, value);
-                }
-                
-                formMessage.textContent = 'Thank you! Our team will contact you shortly.';
-                formMessage.className = 'mt-4 text-center text-green-600 font-bold';
-                leadForm.reset();
-            });
-        }
-        
-        // Sticky CTA Logic
-        const stickyCTA = document.getElementById('sticky-cta');
-        const pricingSection = document.getElementById('pricing');
-        if (stickyCTA && pricingSection) {
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    // Show sticky when the pricing section is NOT in view
-                    if (entry.isIntersecting) {
-                        stickyCTA.classList.add('hide-sticky');
-                    } else {
-                        stickyCTA.classList.remove('hide-sticky');
+                // Update active state in nav links
+                const allLinks = [...navLinks, ...mobileNavLinks];
+                allLinks.forEach(link => {
+                    link.classList.remove('active', 'text-gold');
+                    link.classList.add('text-gray-300');
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('active', 'text-gold');
+                        link.classList.remove('text-gray-300');
                     }
                 });
-            }, { threshold: 0.1 });
-
-            // We observe a section higher up to trigger the CTA earlier
-            const heroSection = document.getElementById('hero');
-            if(heroSection) {
-                 const ctaObserver = new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if (!entry.isIntersecting) {
-                            stickyCTA.classList.remove('hide-sticky');
-                        } else {
-                            stickyCTA.classList.add('hide-sticky');
-                        }
-                    });
-                }, { threshold: 0.1, rootMargin: "-100px 0px 0px 0px" });
-                ctaObserver.observe(heroSection);
+                
+                // Close mobile menu on navigation
+                mobileMenu.classList.add('hidden');
+                
+                // Scroll to top of page
+                window.scrollTo(0, 0);
             }
-        }
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+            // Event listeners for all page links
+            pageLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.dataset.page;
+                    switchPage(pageId);
                 });
             });
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Contact Form Logic ---
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    formStatus.textContent = 'Sending...';
+                    formStatus.style.color = '#D4AF37';
+
+                    // Simulate form submission
+                    setTimeout(() => {
+                        formStatus.textContent = 'Thank you! Your message has been sent.';
+                        formStatus.style.color = '#22c55e'; // green-500
+                        contactForm.reset();
+                    }, 1500);
+                });
+            }
         });
     </script>
 
