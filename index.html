@@ -50,7 +50,6 @@
             /* Added an overlay for text readability on top of the body background */
             background-color: rgba(0, 0, 0, 0.4); 
         }
-        /* Removed .hero-video style as the video is gone */
         .nav-link {
             position: relative;
             transition: color 0.3s;
@@ -81,10 +80,76 @@
         /* Page transition styles */
         .page { display: none; }
         .page.active { display: block; }
+        
+        /* Ticker container style */
+        .ticker-container {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
 
     </style>
 </head>
-<body class="bg-dark">
+<body>
+
+    <!-- Live Market Ticker -->
+    <div class="ticker-container">
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+          "symbols": [
+            { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
+            { "proName": "FOREXCOM:NSXUSD", "title": "US 100" },
+            { "proName": "FX_IDC:EURUSD", "title": "EUR/USD" },
+            { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+            { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
+            { "description": "Apple", "proName": "NASDAQ:AAPL" },
+            { "description": "Microsoft", "proName": "NASDAQ:MSFT" },
+            { "description": "Google", "proName": "NASDAQ:GOOGL" },
+            { "description": "Amazon", "proName": "NASDAQ:AMZN" },
+            { "description": "NVIDIA", "proName": "NASDAQ:NVDA" },
+            { "description": "Tesla", "proName": "NASDAQ:TSLA" },
+            { "description": "Meta", "proName": "NASDAQ:META" },
+            { "description": "Gold", "proName": "OANDA:XAUUSD" },
+            { "description": "Crude Oil", "proName": "TVC:USOIL" },
+            { "description": "GBP/USD", "proName": "FX:GBPUSD" },
+            { "description": "USD/JPY", "proName": "FX:USDJPY" },
+            { "description": "Silver", "proName": "OANDA:XAGUSD" },
+            { "description": "JPMorgan", "proName": "NYSE:JPM" },
+            { "description": "Visa", "proName": "NYSE:V" },
+            { "description": "Johnson & Johnson", "proName": "NYSE:JNJ" },
+            { "description": "Walmart", "proName": "NYSE:WMT" },
+            { "description": "Bank of America", "proName": "NYSE:BAC" },
+            { "description": "Exxon Mobil", "proName": "NYSE:XOM" },
+            { "description": "DAX", "proName": "CURRENCYCOM:DE40" },
+            { "description": "FTSE 100", "proName": "CURRENCYCOM:UK100" },
+            { "description": "Nikkei 225", "proName": "CURRENCYCOM:JP225" },
+            { "description": "AUD/USD", "proName": "FX:AUDUSD" },
+            { "description": "USD/CAD", "proName": "FX:USDCAD" },
+            { "description": "Netflix", "proName": "NASDAQ:NFLX" },
+            { "description": "Salesforce", "proName": "NYSE:CRM" },
+            { "description": "Adobe", "proName": "NASDAQ:ADBE" },
+            { "description": "Pfizer", "proName": "NYSE:PFE" },
+            { "description": "Coca-Cola", "proName": "NYSE:KO" },
+            { "description": "PepsiCo", "proName": "NASDAQ:PEP" },
+            { "description": "Disney", "proName": "NYSE:DIS" },
+            { "description": "Cisco", "proName": "NASDAQ:CSCO" },
+            { "description": "Intel", "proName": "NASDAQ:INTC" },
+            { "description": "Natural Gas", "proName": "TVC:NATURALGAS" },
+            { "description": "Copper", "proName": "COMEX:HG1!" },
+            { "description": "Alibaba", "proName": "NYSE:BABA" },
+            { "description": "TSMC", "proName": "NYSE:TSM" }
+          ],
+          "showSymbolLogo": true,
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "displayMode": "adaptive",
+          "locale": "en"
+        }
+          </script>
+        </div>
+        <!-- TradingView Widget END -->
+    </div>
 
     <!-- Header & Navigation -->
     <header id="header" class="sticky-nav border-b border-gray-700">
