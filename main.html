@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Hub – Fundamental Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #E0E0E0;
+            background-color: #121212; /* Fallback color */
+        }
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.6; 
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+        }
+        /* Semi-transparent overlays */
+        .bg-dark { background-color: rgba(18, 18, 18, 0.6); }
+        .bg-dark-secondary { background-color: rgba(30, 30, 30, 0.6); }
+        .text-gold { color: #D4AF37; }
+        .border-gold { border-color: #D4AF37; }
+        .btn-gold {
+            background-color: #D4AF37;
+            color: #121212;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            background-color: #EACD69;
+            transform: translateY(-2px);
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        .hero-section {
+            height: 85vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.2); 
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #D4AF37;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .card {
+            background-color: rgba(30, 30, 30, 0.6);
+            border: 1px solid #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.1);
+        }
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        .ticker-container {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Modal styles */
+        .modal {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .modal-content {
+             background-color: rgba(30, 30, 30, 0.95);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="https://cdn.pixabay.com/video/2022/07/02/122881-726547787_large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Live Market Ticker -->
+    <div class="ticker-container">
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+          "symbols": [
+            { "proName": "FOREXCOM:SPXUSD", "title": "S&P 500" },
+            { "proName": "FOREXCOM:NSXUSD", "title": "US 100" },
+            { "proName": "FX_IDC:EURUSD", "title": "EUR/USD" },
+            { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
+            { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
+            { "description": "Apple", "proName": "NASDAQ:AAPL" },
+            { "description": "Microsoft", "proName": "NASDAQ:MSFT" },
+            { "description": "Google", "proName": "NASDAQ:GOOGL" },
+            { "description": "Amazon", "proName": "NASDAQ:AMZN" },
+            { "description": "NVIDIA", "proName": "NASDAQ:NVDA" },
+            { "description": "Tesla", "proName": "NASDAQ:TSLA" }
+          ],
+          "showSymbolLogo": true,
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "displayMode": "adaptive",
+          "locale": "en"
+        }
+          </script>
+        </div>
+        <!-- TradingView Widget END -->
+    </div>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="sticky-nav border-b border-gray-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white nav-link" data-page="home">
+                Trading Hub<span class="text-gold"> Fundamental Analysis</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8" id="desktop-nav-links">
+                <a href="#" class="nav-link text-gray-300 hover:text-gold active" data-page="home">Home</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold" data-page="markets">Our Markets</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold" data-page="blog">Fundamental Analysis Blog</a>
+                <a href="#" class="nav-link text-gray-300 hover:text-gold" data-page="contact">Contact</a>
+                <!-- Auth links will be injected here by JS -->
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="home">Home</a>
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="markets">Our Markets</a>
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="blog">Blog</a>
+            <a href="#" class="block py-2 text-gray-300 hover:text-gold" data-page="contact">Contact</a>
+             <!-- Mobile Auth links will be injected here by JS -->
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero-section text-white text-center">
+                <div class="z-10 px-4">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Trade Currencies, Commodities, <br class="hidden md:block"> Precious Metals and Global Stock Indices</h1>
+                    <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300">Unlock global markets with cutting-edge analysis and powerful insights. We provide the knowledge you need to navigate the financial world with confidence.</p>
+                </div>
+            </section>
+            
+            <!-- Value Proposition -->
+            <section class="py-16 sm:py-24 bg-dark">
+                <div class="container mx-auto px-6 text-center">
+                    <div class="grid md:grid-cols-3 gap-12">
+                        <div class="flex flex-col items-center">
+                            <div class="bg-dark-secondary p-5 rounded-full mb-4 border border-gray-700">
+                                <i class="fas fa-chart-line fa-2x text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">In-Depth Analysis</h3>
+                            <p class="text-gray-400">Access comprehensive fundamental analysis to make informed trading decisions.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-dark-secondary p-5 rounded-full mb-4 border border-gray-700">
+                                <i class="fas fa-book-open fa-2x text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Educational Resources</h3>
+                            <p class="text-gray-400">Learn the intricacies of the markets with our extensive blog and guides.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-dark-secondary p-5 rounded-full mb-4 border border-gray-700">
+                                <i class="fas fa-globe fa-2x text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Global Market Coverage</h3>
+                            <p class="text-gray-400">Explore opportunities across Forex, commodities, indices, and more.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Our Markets Page -->
+        <div id="markets" class="page">
+           <!-- Static content for markets page -->
+        </div>
+
+        <!-- Blog Page -->
+        <div id="blog" class="page">
+            <section class="py-16 sm:py-24 bg-dark">
+                <div class="container mx-auto px-6">
+                    <h1 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white">Fundamental Analysis Blog</h1>
+                    <div id="blog-posts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Blog posts will be loaded here dynamically -->
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <!-- Static content for contact page -->
+        </div>
+
+        <!-- Admin Dashboard Page -->
+        <div id="admin" class="page">
+            <section class="py-16 sm:py-24 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <h1 class="text-4xl font-bold text-center mb-12">Admin Dashboard</h1>
+                    <div class="max-w-2xl mx-auto bg-dark p-8 rounded-lg border border-gray-700">
+                        <h2 class="text-2xl font-bold mb-6">Create New Post</h2>
+                        <form id="create-post-form">
+                            <div class="mb-4">
+                                <label for="post-title" class="block mb-2">Title</label>
+                                <input type="text" id="post-title" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="post-image-url" class="block mb-2">Image URL</label>
+                                <input type="url" id="post-image-url" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="post-content" class="block mb-2">Content (Excerpt)</label>
+                                <textarea id="post-content" rows="5" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-gold font-bold w-full py-3 rounded-lg">Publish Post</button>
+                        </form>
+                    </div>
+                    <div class="mt-16">
+                        <h2 class="text-2xl font-bold text-center mb-8">Manage Existing Posts</h2>
+                        <div id="manage-posts-container" class="space-y-4 max-w-4xl mx-auto">
+                            <!-- Existing posts will be listed here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+     <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-50 items-center justify-center hidden modal">
+        <div class="modal-content w-full max-w-md p-8 rounded-lg border border-gray-700 relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <h2 class="text-2xl font-bold text-center mb-6">Admin Login</h2>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="login-email" class="block mb-2">Email</label>
+                    <input type="email" id="login-email" value="admin@tradinghub.com" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                </div>
+                <div class="mb-6">
+                    <label for="login-password" class="block mb-2">Password</label>
+                    <input type="password" id="login-password" value="password123" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                </div>
+                <button type="submit" class="btn-gold font-bold w-full py-3 rounded-lg">Login</button>
+                <p id="login-error" class="text-red-500 text-center mt-4"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-secondary border-t border-gray-700">
+       <!-- Static Footer Content -->
+    </footer>
+    
+    <!-- WhatsApp Chat Icon -->
+    <a href="https://wa.me/447458157780" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all">
+        <i class="fab fa-whatsapp fa-2x"></i>
+    </a>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB9KoQVA6QVcYw0OkUMm1p9C7a2MPEWhSQ",
+            authDomain: "trading-hub-blog.firebaseapp.com",
+            projectId: "trading-hub-blog",
+            storageBucket: "trading-hub-blog.appspot.com",
+            messagingSenderId: "367973509856",
+            appId: "1:367973509856:web:302c1ab18ffc01b2b9fe85"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- DOM Elements ---
+        const pages = document.querySelectorAll('.page');
+        const allPageLinks = document.querySelectorAll('a[data-page]');
+        const desktopNav = document.getElementById('desktop-nav-links');
+        const mobileNav = document.getElementById('mobile-menu');
+        const loginModal = document.getElementById('login-modal');
+        const loginForm = document.getElementById('login-form');
+        const closeModalButton = document.getElementById('close-modal');
+        const createPostForm = document.getElementById('create-post-form');
+        const blogPostsContainer = document.getElementById('blog-posts-container');
+        const managePostsContainer = document.getElementById('manage-posts-container');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+
+        // --- App State ---
+        let currentUser = null;
+        const ADMIN_EMAIL = "admin@tradinghub.com"; // Hardcoded admin email
+
+        // --- Navigation Logic ---
+        function switchPage(pageId) {
+            pages.forEach(page => page.classList.remove('active'));
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) targetPage.classList.add('active');
+            
+            // Update active nav link style
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelectorAll(`a[data-page="${pageId}"]`).forEach(l => l.classList.add('active'));
+
+            mobileMenu.classList.add('hidden'); // Close mobile menu on nav
+            window.scrollTo(0, 0);
+        }
+
+        allPageLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                switchPage(link.dataset.page);
+            });
+        });
+        
+        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // --- Auth UI Management ---
+        function updateNavUI(user) {
+            const isAdmin = user && user.email === ADMIN_EMAIL;
+            
+            // Clear existing auth links
+            desktopNav.querySelectorAll('.auth-link').forEach(el => el.remove());
+            mobileNav.querySelectorAll('.auth-link').forEach(el => el.remove());
+
+            let desktopLinks = '';
+            let mobileLinks = '';
+
+            if (user) {
+                if (isAdmin) {
+                    desktopLinks += `<a href="#" class="nav-link text-gray-300 hover:text-gold auth-link" data-page="admin">Admin</a>`;
+                    mobileLinks += `<a href="#" class="block py-2 text-gray-300 hover:text-gold auth-link" data-page="admin">Admin</a>`;
+                }
+                desktopLinks += `<a href="#" id="logout-btn" class="nav-link text-gray-300 hover:text-gold auth-link">Logout</a>`;
+                mobileLinks += `<a href="#" id="mobile-logout-btn" class="block py-2 text-gray-300 hover:text-gold auth-link">Logout</a>`;
+            } else {
+                desktopLinks += `<a href="#" id="login-btn" class="nav-link text-gray-300 hover:text-gold auth-link">Login</a>`;
+                mobileLinks += `<a href="#" id="mobile-login-btn" class="block py-2 text-gray-300 hover:text-gold auth-link">Login</a>`;
+            }
+
+            desktopNav.insertAdjacentHTML('beforeend', desktopLinks);
+            mobileNav.insertAdjacentHTML('beforeend', mobileLinks);
+            
+            attachAuthEventListeners();
+        }
+
+        function attachAuthEventListeners() {
+            document.getElementById('login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
+            document.getElementById('mobile-login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
+            document.getElementById('logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
+            document.getElementById('mobile-logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
+            
+            document.querySelectorAll('a[data-page="admin"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    switchPage('admin');
+                });
+            });
+        }
+
+        // --- Firebase Auth Logic ---
+        onAuthStateChanged(auth, user => {
+            currentUser = user;
+            updateNavUI(user);
+        });
+        
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            errorEl.textContent = '';
+            
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                loginModal.style.display = 'none';
+                loginForm.reset();
+            } catch (error) {
+                console.error("Login failed:", error.code);
+                errorEl.textContent = "Invalid email or password.";
+                // For demo: if the admin user doesn't exist, create it on first login attempt.
+                if (error.code === 'auth/user-not-found' && email === ADMIN_EMAIL) {
+                     try {
+                        await createUserWithEmailAndPassword(auth, email, password);
+                        // Automatically sign in after creating
+                        await signInWithEmailAndPassword(auth, email, password);
+                        loginModal.style.display = 'none';
+                    } catch (createError) {
+                        console.error("Admin creation failed:", createError);
+                        errorEl.textContent = "Could not create admin account.";
+                    }
+                }
+            }
+        });
+
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                switchPage('home'); // Redirect to home on logout
+            } catch (error) {
+                console.error("Logout failed:", error);
+            }
+        }
+
+        closeModalButton.addEventListener('click', () => loginModal.style.display = 'none');
+
+        // --- Firestore (Blog) Logic ---
+        const postsCollection = collection(db, "posts");
+        const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
+
+        // Create a post
+        createPostForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+                alert("You are not authorized to create posts.");
+                return;
+            }
+
+            const title = document.getElementById('post-title').value;
+            const imageUrl = document.getElementById('post-image-url').value;
+            const content = document.getElementById('post-content').value;
+
+            try {
+                await addDoc(postsCollection, {
+                    title,
+                    imageUrl,
+                    content,
+                    createdAt: new Date()
+                });
+                createPostForm.reset();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Failed to publish post.");
+            }
+        });
+
+        // Read and display posts (real-time)
+        onSnapshot(postsQuery, (snapshot) => {
+            let blogHtml = '';
+            let manageHtml = '';
+            
+            if (snapshot.empty) {
+                blogHtml = `<p class="text-center col-span-full">No blog posts yet. The admin needs to add some!</p>`;
+                manageHtml = `<p class="text-center">No posts to manage.</p>`;
+            } else {
+                snapshot.docs.forEach(doc => {
+                    const post = doc.data();
+                    const postId = doc.id;
+                    
+                    // HTML for the public blog page
+                    blogHtml += `
+                        <div class="card rounded-lg overflow-hidden flex flex-col">
+                            <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';">
+                            <div class="p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>
+                                <p class="text-gray-400 mb-4 flex-grow">${post.content}</p>
+                                <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
+                            </div>
+                        </div>
+                    `;
+
+                    // HTML for the admin management page
+                    manageHtml += `
+                        <div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700">
+                            <span class="truncate pr-4">${post.title}</span>
+                            <button data-id="${postId}" class="delete-post-btn text-red-500 hover:text-red-400 font-bold">Delete</button>
+                        </div>
+                    `;
+                });
+            }
+
+            blogPostsContainer.innerHTML = blogHtml;
+            managePostsContainer.innerHTML = manageHtml;
+
+            // Add event listeners for delete buttons
+            document.querySelectorAll('.delete-post-btn').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const id = e.target.dataset.id;
+                    if (confirm("Are you sure you want to delete this post?")) {
+                        try {
+                            await deleteDoc(doc(db, "posts", id));
+                        } catch (error) {
+                            console.error("Error deleting post: ", error);
+                        }
+                    }
+                });
+            });
+        });
+
+        // Initialize the app
+        updateNavUI(null); // Initial UI state
+        
+    </script>
+</body>
+</html>
