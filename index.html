@@ -301,188 +301,199 @@
         import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         
-        // --- DOM Elements ---
-        const pages = document.querySelectorAll('.page');
-        const allPageLinks = document.querySelectorAll('a[data-page]');
-        const desktopNav = document.getElementById('desktop-nav-links');
-        const mobileNav = document.getElementById('mobile-menu');
-        const loginModal = document.getElementById('login-modal');
-        const loginForm = document.getElementById('login-form');
-        const closeModalButton = document.getElementById('close-modal');
-        const createPostForm = document.getElementById('create-post-form');
-        const blogPostsContainer = document.getElementById('blog-posts-container');
-        const managePostsContainer = document.getElementById('manage-posts-container');
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Elements ---
+            const pages = document.querySelectorAll('.page');
+            const allPageLinks = document.querySelectorAll('a[data-page]');
+            const desktopNav = document.getElementById('desktop-nav-links');
+            const mobileNav = document.getElementById('mobile-menu');
+            const loginModal = document.getElementById('login-modal');
+            const loginForm = document.getElementById('login-form');
+            const closeModalButton = document.getElementById('close-modal');
+            const createPostForm = document.getElementById('create-post-form');
+            const blogPostsContainer = document.getElementById('blog-posts-container');
+            const managePostsContainer = document.getElementById('manage-posts-container');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
 
-        // --- UI Logic (runs immediately) ---
-        function switchPage(pageId) {
-            pages.forEach(page => page.classList.remove('active'));
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) targetPage.classList.add('active');
-            
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.querySelectorAll(`a[data-page="${pageId}"]`).forEach(l => l.classList.add('active'));
+            // --- UI Initialization ---
+            function initializeUI() {
+                function switchPage(pageId) {
+                    pages.forEach(page => page.classList.remove('active'));
+                    const targetPage = document.getElementById(pageId);
+                    if (targetPage) targetPage.classList.add('active');
+                    
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll(`a[data-page="${pageId}"]`).forEach(l => l.classList.add('active'));
 
-            mobileMenu.classList.add('hidden');
-            window.scrollTo(0, 0);
-        }
-
-        allPageLinks.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                switchPage(link.dataset.page);
-            });
-        });
-        
-        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        closeModalButton.addEventListener('click', () => loginModal.style.display = 'none');
-
-        // --- Firebase Logic (wrapped in try-catch) ---
-        try {
-            // Your web app's Firebase configuration
-            const firebaseConfig = {
-                apiKey: "AIzaSyB9KoQVA6QVcYw0OkUMm1p9C7a2MPEWhSQ",
-                authDomain: "trading-hub-blog.firebaseapp.com",
-                projectId: "trading-hub-blog",
-                storageBucket: "trading-hub-blog.appspot.com", // Corrected URL
-                messagingSenderId: "367973509856",
-                appId: "1:367973509856:web:302c1ab18ffc01b2b9fe85"
-            };
-
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-
-            let currentUser = null;
-            const ADMIN_EMAIL = "admin@tradinghub.com";
-
-            function updateNavUI(user) {
-                const isAdmin = user && user.email === ADMIN_EMAIL;
-                desktopNav.querySelectorAll('.auth-link').forEach(el => el.remove());
-                mobileNav.querySelectorAll('.auth-link').forEach(el => el.remove());
-                let desktopLinks = '', mobileLinks = '';
-                if (user) {
-                    if (isAdmin) {
-                        desktopLinks += `<a href="#" class="nav-link text-gray-300 hover:text-gold auth-link" data-page="admin">Admin</a>`;
-                        mobileLinks += `<a href="#" class="block py-2 text-gray-300 hover:text-gold auth-link" data-page="admin">Admin</a>`;
-                    }
-                    desktopLinks += `<a href="#" id="logout-btn" class="nav-link text-gray-300 hover:text-gold auth-link">Logout</a>`;
-                    mobileLinks += `<a href="#" id="mobile-logout-btn" class="block py-2 text-gray-300 hover:text-gold auth-link">Logout</a>`;
-                } else {
-                    desktopLinks += `<a href="#" id="login-btn" class="nav-link text-gray-300 hover:text-gold auth-link">Login</a>`;
-                    mobileLinks += `<a href="#" id="mobile-login-btn" class="block py-2 text-gray-300 hover:text-gold auth-link">Login</a>`;
+                    mobileNav.classList.add('hidden');
+                    window.scrollTo(0, 0);
                 }
-                desktopNav.insertAdjacentHTML('beforeend', desktopLinks);
-                mobileNav.insertAdjacentHTML('beforeend', mobileLinks);
-                attachAuthEventListeners();
-            }
 
-            function attachAuthEventListeners() {
-                document.getElementById('login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
-                document.getElementById('mobile-login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
-                document.getElementById('logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
-                document.getElementById('mobile-logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
-                document.querySelectorAll('a[data-page="admin"]').forEach(link => {
-                    link.addEventListener('click', (e) => { e.preventDefault(); switchPage('admin'); });
+                allPageLinks.forEach(link => {
+                    link.addEventListener('click', e => {
+                        e.preventDefault();
+                        switchPage(link.dataset.page);
+                    });
                 });
+                
+                if (mobileMenuButton && mobileNav) {
+                    mobileMenuButton.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
+                }
+                
+                if(closeModalButton) {
+                    closeModalButton.addEventListener('click', () => loginModal.style.display = 'none');
+                }
             }
 
-            onAuthStateChanged(auth, user => {
-                currentUser = user;
-                updateNavUI(user);
-            });
-
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                const errorEl = document.getElementById('login-error');
-                errorEl.textContent = '';
+            // --- Firebase Initialization ---
+            function initializeFirebase() {
                 try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    loginModal.style.display = 'none';
-                    loginForm.reset();
-                } catch (error) {
-                    errorEl.textContent = "Invalid email or password.";
-                    if (error.code === 'auth/user-not-found' && email === ADMIN_EMAIL) {
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyB9KoQVA6QVcYw0OkUMm1p9C7a2MPEWhSQ",
+                        authDomain: "trading-hub-blog.firebaseapp.com",
+                        projectId: "trading-hub-blog",
+                        storageBucket: "trading-hub-blog.appspot.com", // Corrected URL
+                        messagingSenderId: "367973509856",
+                        appId: "1:367973509856:web:302c1ab18ffc01b2b9fe85"
+                    };
+
+                    const app = initializeApp(firebaseConfig);
+                    const auth = getAuth(app);
+                    const db = getFirestore(app);
+
+                    let currentUser = null;
+                    const ADMIN_EMAIL = "admin@tradinghub.com";
+
+                    function updateNavUI(user) {
+                        const isAdmin = user && user.email === ADMIN_EMAIL;
+                        desktopNav.querySelectorAll('.auth-link').forEach(el => el.remove());
+                        mobileNav.querySelectorAll('.auth-link').forEach(el => el.remove());
+                        let desktopLinks = '', mobileLinks = '';
+                        if (user) {
+                            if (isAdmin) {
+                                desktopLinks += `<a href="#" class="nav-link text-gray-300 hover:text-gold auth-link" data-page="admin">Admin</a>`;
+                                mobileLinks += `<a href="#" class="block py-2 text-gray-300 hover:text-gold auth-link" data-page="admin">Admin</a>`;
+                            }
+                            desktopLinks += `<a href="#" id="logout-btn" class="nav-link text-gray-300 hover:text-gold auth-link">Logout</a>`;
+                            mobileLinks += `<a href="#" id="mobile-logout-btn" class="block py-2 text-gray-300 hover:text-gold auth-link">Logout</a>`;
+                        } else {
+                            desktopLinks += `<a href="#" id="login-btn" class="nav-link text-gray-300 hover:text-gold auth-link">Login</a>`;
+                            mobileLinks += `<a href="#" id="mobile-login-btn" class="block py-2 text-gray-300 hover:text-gold auth-link">Login</a>`;
+                        }
+                        desktopNav.insertAdjacentHTML('beforeend', desktopLinks);
+                        mobileNav.insertAdjacentHTML('beforeend', mobileLinks);
+                        attachAuthEventListeners();
+                    }
+
+                    function attachAuthEventListeners() {
+                        document.getElementById('login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
+                        document.getElementById('mobile-login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
+                        document.getElementById('logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
+                        document.getElementById('mobile-logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
+                        document.querySelectorAll('a[data-page="admin"]').forEach(link => {
+                            link.addEventListener('click', (e) => { e.preventDefault(); switchPage('admin'); });
+                        });
+                    }
+
+                    onAuthStateChanged(auth, user => {
+                        currentUser = user;
+                        updateNavUI(user);
+                    });
+
+                    loginForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const email = document.getElementById('login-email').value;
+                        const password = document.getElementById('login-password').value;
+                        const errorEl = document.getElementById('login-error');
+                        errorEl.textContent = '';
                         try {
-                            await createUserWithEmailAndPassword(auth, email, password);
                             await signInWithEmailAndPassword(auth, email, password);
                             loginModal.style.display = 'none';
-                        } catch (createError) {
-                            errorEl.textContent = "Could not create admin account.";
+                            loginForm.reset();
+                        } catch (error) {
+                            errorEl.textContent = "Invalid email or password.";
+                            if (error.code === 'auth/user-not-found' && email === ADMIN_EMAIL) {
+                                try {
+                                    await createUserWithEmailAndPassword(auth, email, password);
+                                    await signInWithEmailAndPassword(auth, email, password);
+                                    loginModal.style.display = 'none';
+                                } catch (createError) {
+                                    errorEl.textContent = "Could not create admin account.";
+                                }
+                            }
                         }
-                    }
-                }
-            });
+                    });
 
-            async function handleLogout() {
-                await signOut(auth);
-                switchPage('home');
+                    async function handleLogout() {
+                        await signOut(auth);
+                        switchPage('home');
+                    }
+
+                    const postsCollection = collection(db, "posts");
+                    const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
+
+                    createPostForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        if (!currentUser || currentUser.email !== ADMIN_EMAIL) return alert("You are not authorized.");
+                        const title = document.getElementById('post-title').value;
+                        const imageUrl = document.getElementById('post-image-url').value;
+                        const content = document.getElementById('post-content').value;
+                        try {
+                            await addDoc(postsCollection, { title, imageUrl, content, createdAt: new Date() });
+                            createPostForm.reset();
+                        } catch (error) {
+                            console.error("Error adding document: ", error);
+                        }
+                    });
+
+                    onSnapshot(postsQuery, (snapshot) => {
+                        let blogHtml = '', manageHtml = '';
+                        if (snapshot.empty) {
+                            blogHtml = `<p class="text-center col-span-full">No blog posts yet.</p>`;
+                            manageHtml = `<p class="text-center">No posts to manage.</p>`;
+                        } else {
+                            snapshot.docs.forEach(doc => {
+                                const post = doc.data();
+                                const postId = doc.id;
+                                blogHtml += `
+                                    <div class="card rounded-lg overflow-hidden flex flex-col">
+                                        <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';">
+                                        <div class="p-6 flex flex-col flex-grow">
+                                            <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>
+                                            <p class="text-gray-400 mb-4 flex-grow">${post.content}</p>
+                                            <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
+                                        </div>
+                                    </div>`;
+                                manageHtml += `
+                                    <div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700">
+                                        <span class="truncate pr-4">${post.title}</span>
+                                        <button data-id="${postId}" class="delete-post-btn text-red-500 hover:text-red-400 font-bold">Delete</button>
+                                    </div>`;
+                            });
+                        }
+                        blogPostsContainer.innerHTML = blogHtml;
+                        managePostsContainer.innerHTML = manageHtml;
+                        document.querySelectorAll('.delete-post-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                if (confirm("Are you sure?")) {
+                                    await deleteDoc(doc(db, "posts", e.target.dataset.id));
+                                }
+                            });
+                        });
+                    });
+                    
+                    updateNavUI(null);
+
+                } catch (error) {
+                    console.error("Critical Firebase Initialization Error:", error);
+                    document.body.innerHTML = `<div class="text-white text-center p-8">Could not connect to the server. Please check your connection and try again.</div>`;
+                }
             }
 
-            const postsCollection = collection(db, "posts");
-            const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
-
-            createPostForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!currentUser || currentUser.email !== ADMIN_EMAIL) return alert("You are not authorized.");
-                const title = document.getElementById('post-title').value;
-                const imageUrl = document.getElementById('post-image-url').value;
-                const content = document.getElementById('post-content').value;
-                try {
-                    await addDoc(postsCollection, { title, imageUrl, content, createdAt: new Date() });
-                    createPostForm.reset();
-                } catch (error) {
-                    console.error("Error adding document: ", error);
-                }
-            });
-
-            onSnapshot(postsQuery, (snapshot) => {
-                let blogHtml = '', manageHtml = '';
-                if (snapshot.empty) {
-                    blogHtml = `<p class="text-center col-span-full">No blog posts yet.</p>`;
-                    manageHtml = `<p class="text-center">No posts to manage.</p>`;
-                } else {
-                    snapshot.docs.forEach(doc => {
-                        const post = doc.data();
-                        const postId = doc.id;
-                        blogHtml += `
-                            <div class="card rounded-lg overflow-hidden flex flex-col">
-                                <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';">
-                                <div class="p-6 flex flex-col flex-grow">
-                                    <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>
-                                    <p class="text-gray-400 mb-4 flex-grow">${post.content}</p>
-                                    <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
-                                </div>
-                            </div>`;
-                        manageHtml += `
-                            <div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700">
-                                <span class="truncate pr-4">${post.title}</span>
-                                <button data-id="${postId}" class="delete-post-btn text-red-500 hover:text-red-400 font-bold">Delete</button>
-                            </div>`;
-                    });
-                }
-                blogPostsContainer.innerHTML = blogHtml;
-                managePostsContainer.innerHTML = manageHtml;
-                document.querySelectorAll('.delete-post-btn').forEach(button => {
-                    button.addEventListener('click', async (e) => {
-                        if (confirm("Are you sure?")) {
-                            await deleteDoc(doc(db, "posts", e.target.dataset.id));
-                        }
-                    });
-                });
-            });
-            
-            // Initialize with no user
-            updateNavUI(null);
-
-        } catch (error) {
-            console.error("Critical Firebase Initialization Error:", error);
-            // Display a user-friendly error message on the page if Firebase fails
-            document.body.innerHTML = `<div class="text-white text-center p-8">Could not connect to the server. Please check your connection and try again.</div>`;
-        }
+            // --- Run Initializers ---
+            initializeUI();
+            initializeFirebase();
+        });
     </script>
 </body>
 </html>
