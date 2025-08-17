@@ -97,6 +97,15 @@
              background-color: rgba(30, 30, 30, 0.95);
         }
 
+        /* Hide scrollbar for horizontal scroll */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
     </style>
 </head>
 <body>
@@ -142,7 +151,7 @@
     <header id="header" class="sticky-nav border-b border-gray-700">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-white nav-link" data-page="home">
-                Trading Hub<span class="text-gold"> Fundamental Analysis</span>
+                Trading <span class="text-gold">Hub</span>
             </a>
             <div class="hidden md:flex items-center space-x-8" id="desktop-nav-links">
                 <a href="#" class="nav-link text-gray-300 hover:text-gold active" data-page="home">Home</a>
@@ -206,6 +215,19 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Latest Analysis Section -->
+            <section class="py-16 sm:py-24 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-white">Latest Analysis</h2>
+                    <div class="overflow-x-auto hide-scrollbar pb-4">
+                        <div id="latest-posts-container" class="flex space-x-8">
+                            <!-- Latest blog posts will be loaded here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
 
         <!-- Our Markets Page -->
@@ -304,7 +326,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             // --- DOM Elements ---
             const pages = document.querySelectorAll('.page');
-            const allPageLinks = document.querySelectorAll('a[data-page]');
             const desktopNav = document.getElementById('desktop-nav-links');
             const mobileNav = document.getElementById('mobile-menu');
             const loginModal = document.getElementById('login-modal');
@@ -314,22 +335,24 @@
             const blogPostsContainer = document.getElementById('blog-posts-container');
             const managePostsContainer = document.getElementById('manage-posts-container');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const latestPostsContainer = document.getElementById('latest-posts-container');
+
+            // --- Navigation Function (Global Scope within Module) ---
+            function switchPage(pageId) {
+                pages.forEach(page => page.classList.remove('active'));
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) targetPage.classList.add('active');
+                
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll(`a[data-page="${pageId}"]`).forEach(l => l.classList.add('active'));
+
+                mobileNav.classList.add('hidden');
+                window.scrollTo(0, 0);
+            }
 
             // --- UI Initialization ---
             function initializeUI() {
-                function switchPage(pageId) {
-                    pages.forEach(page => page.classList.remove('active'));
-                    const targetPage = document.getElementById(pageId);
-                    if (targetPage) targetPage.classList.add('active');
-                    
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    document.querySelectorAll(`a[data-page="${pageId}"]`).forEach(l => l.classList.add('active'));
-
-                    mobileNav.classList.add('hidden');
-                    window.scrollTo(0, 0);
-                }
-
-                allPageLinks.forEach(link => {
+                document.querySelectorAll('a[data-page]').forEach(link => {
                     link.addEventListener('click', e => {
                         e.preventDefault();
                         switchPage(link.dataset.page);
@@ -352,7 +375,7 @@
                         apiKey: "AIzaSyB9KoQVA6QVcYw0OkUMm1p9C7a2MPEWhSQ",
                         authDomain: "trading-hub-blog.firebaseapp.com",
                         projectId: "trading-hub-blog",
-                        storageBucket: "trading-hub-blog.appspot.com", // Corrected URL
+                        storageBucket: "trading-hub-blog.appspot.com",
                         messagingSenderId: "367973509856",
                         appId: "1:367973509856:web:302c1ab18ffc01b2b9fe85"
                     };
@@ -386,13 +409,17 @@
                     }
 
                     function attachAuthEventListeners() {
+                        document.querySelectorAll('a[data-page]').forEach(link => {
+                            link.addEventListener('click', e => {
+                                e.preventDefault();
+                                switchPage(link.dataset.page);
+                            });
+                        });
+                        
                         document.getElementById('login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
                         document.getElementById('mobile-login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
                         document.getElementById('logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
                         document.getElementById('mobile-logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
-                        document.querySelectorAll('a[data-page="admin"]').forEach(link => {
-                            link.addEventListener('click', (e) => { e.preventDefault(); switchPage('admin'); });
-                        });
                     }
 
                     onAuthStateChanged(auth, user => {
@@ -447,14 +474,18 @@
                     });
 
                     onSnapshot(postsQuery, (snapshot) => {
-                        let blogHtml = '', manageHtml = '';
+                        let blogHtml = '', manageHtml = '', latestPostsHtml = '';
                         if (snapshot.empty) {
-                            blogHtml = `<p class="text-center col-span-full">No blog posts yet.</p>`;
+                            const noPostsMsg = `<p class="text-center col-span-full">No blog posts yet.</p>`;
+                            blogHtml = noPostsMsg;
                             manageHtml = `<p class="text-center">No posts to manage.</p>`;
+                            latestPostsHtml = noPostsMsg;
                         } else {
                             snapshot.docs.forEach(doc => {
                                 const post = doc.data();
                                 const postId = doc.id;
+                                
+                                // Card for main blog page
                                 blogHtml += `
                                     <div class="card rounded-lg overflow-hidden flex flex-col">
                                         <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';">
@@ -464,6 +495,17 @@
                                             <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
                                         </div>
                                     </div>`;
+
+                                // Smaller, clickable card for the home page scroller
+                                latestPostsHtml += `
+                                    <a href="#" data-page="blog" class="block w-64 flex-shrink-0 card rounded-lg overflow-hidden">
+                                        <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-32 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x200/1E1E1E/D4AF37?text=Image+Not+Found';">
+                                        <div class="p-4">
+                                            <h4 class="text-md font-bold text-white truncate">${post.title}</h4>
+                                        </div>
+                                    </a>
+                                `;
+
                                 manageHtml += `
                                     <div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700">
                                         <span class="truncate pr-4">${post.title}</span>
@@ -473,6 +515,11 @@
                         }
                         blogPostsContainer.innerHTML = blogHtml;
                         managePostsContainer.innerHTML = manageHtml;
+                        latestPostsContainer.innerHTML = latestPostsHtml;
+
+                        // Re-attach nav listeners after adding new data-page links
+                        attachAuthEventListeners();
+
                         document.querySelectorAll('.delete-post-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 if (confirm("Are you sure?")) {
