@@ -151,7 +151,7 @@
     <header id="header" class="sticky-nav border-b border-gray-700">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-white nav-link" data-page="home">
-                Trading <span class="text-gold">Hub</span>
+                Trading Hub<span class="text-gold"> Fundamental Analysis</span>
             </a>
             <div class="hidden md:flex items-center space-x-8" id="desktop-nav-links">
                 <a href="#" class="nav-link text-gray-300 hover:text-gold active" data-page="home">Home</a>
@@ -232,7 +232,15 @@
 
         <!-- Our Markets Page -->
         <div id="markets" class="page">
-           <!-- Static content for markets page -->
+           <section class="py-16 sm:py-24 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 text-white">Market Analysis & Resources</h1>
+                    <p class="text-lg text-gray-400 text-center max-w-3xl mx-auto mb-16">Download our latest analysis files to stay ahead of the markets.</p>
+                    <div id="market-files-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Market files will be loaded here dynamically -->
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Blog Page -->
@@ -249,7 +257,40 @@
         
         <!-- Contact Page -->
         <div id="contact" class="page">
-            <!-- Static content for contact page -->
+            <section class="py-16 sm:py-24 bg-dark-secondary">
+                <div class="container mx-auto px-6">
+                    <div class="text-center">
+                        <h1 class="text-4xl md:text-5xl font-bold text-white">Get In Touch</h1>
+                        <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Have a question, suggestion, or feedback? We'd love to hear from you.</p>
+                    </div>
+                    <div class="mt-16 max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+                        <!-- Contact Form -->
+                        <div class="bg-dark p-8 rounded-lg border border-gray-700">
+                            <h2 class="text-2xl font-bold text-white mb-6">Send us a Message</h2>
+                            <form id="contact-form">
+                                <div class="mb-4">
+                                    <label for="name" class="block text-gray-300 mb-2">Name</label>
+                                    <input type="text" id="name" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="email" class="block text-gray-300 mb-2">Email</label>
+                                    <input type="email" id="email" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                                </div>
+                                <div class="mb-6">
+                                    <label for="message" class="block text-gray-300 mb-2">Message</label>
+                                    <textarea id="message" rows="5" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required></textarea>
+                                </div>
+                                <button type="submit" class="btn-gold font-bold w-full py-3 rounded-lg">Submit</button>
+                                <p id="form-status" class="text-center mt-4"></p>
+                            </form>
+                        </div>
+                        <!-- Contact Info -->
+                        <div class="space-y-8">
+                           <!-- Contact details -->
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Admin Dashboard Page -->
@@ -257,9 +298,12 @@
             <section class="py-16 sm:py-24 bg-dark-secondary">
                 <div class="container mx-auto px-6">
                     <h1 class="text-4xl font-bold text-center mb-12">Admin Dashboard</h1>
+                    
+                    <!-- Blog Management -->
                     <div class="max-w-2xl mx-auto bg-dark p-8 rounded-lg border border-gray-700">
                         <h2 class="text-2xl font-bold mb-6">Create New Post</h2>
                         <form id="create-post-form">
+                            <!-- Form fields for blog post -->
                             <div class="mb-4">
                                 <label for="post-title" class="block mb-2">Title</label>
                                 <input type="text" id="post-title" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
@@ -275,11 +319,29 @@
                             <button type="submit" class="btn-gold font-bold w-full py-3 rounded-lg">Publish Post</button>
                         </form>
                     </div>
-                    <div class="mt-16">
-                        <h2 class="text-2xl font-bold text-center mb-8">Manage Existing Posts</h2>
-                        <div id="manage-posts-container" class="space-y-4 max-w-4xl mx-auto">
-                            <!-- Existing posts will be listed here -->
-                        </div>
+                    <div class="mt-8 max-w-4xl mx-auto">
+                        <h2 class="text-2xl font-bold text-center mb-8">Manage Posts</h2>
+                        <div id="manage-posts-container" class="space-y-4"></div>
+                    </div>
+                    
+                    <!-- File Upload Section -->
+                    <div class="max-w-2xl mx-auto bg-dark p-8 rounded-lg border border-gray-700 mt-16">
+                        <h2 class="text-2xl font-bold mb-6">Upload Market File</h2>
+                        <form id="upload-file-form">
+                            <div class="mb-4">
+                                <label for="file-title" class="block mb-2">File Title</label>
+                                <input type="text" id="file-title" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="file-upload" class="block mb-2">Select File (PDF, XLS, etc.)</label>
+                                <input type="file" id="file-upload" class="w-full text-gray-300" required>
+                            </div>
+                            <button type="submit" class="btn-gold font-bold w-full py-3 rounded-lg">Upload File</button>
+                        </form>
+                    </div>
+                     <div class="mt-8 max-w-4xl mx-auto">
+                        <h2 class="text-2xl font-bold text-center mb-8">Manage Files</h2>
+                        <div id="manage-files-container" class="space-y-4"></div>
                     </div>
                 </div>
             </section>
@@ -308,7 +370,52 @@
 
     <!-- Footer -->
     <footer class="bg-dark-secondary border-t border-gray-700">
-       <!-- Static Footer Content -->
+       <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold text-white mb-4">Trading<span class="text-gold">Hub</span></h3>
+                    <p class="text-gray-400">Providing in-depth fundamental analysis for the modern trader.</p>
+                </div>
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="home">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="markets">Our Markets</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="blog">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-gold" data-page="contact">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="font-bold text-white mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2 text-gold"></i> support@tradinghub.com</li>
+                        <li><i class="fas fa-phone mr-2 text-gold"></i> +44 7458 157780</li>
+                    </ul>
+                </div>
+                <!-- Socials -->
+                <div>
+                    <h4 class="font-bold text-white mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-gold"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-gold"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-gold"><i class="fab fa-youtube fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Disclaimer -->
+            <div class="mt-12 pt-8 border-t border-gray-700">
+                <h4 class="font-bold text-white mb-2">Disclaimer</h4>
+                <p class="text-xs text-gray-500 mb-4">Trading Hub provides educational and analytical content for informational purposes only. The information on this site is not intended to be, and does not constitute, financial advice or any other advice. Trading foreign exchange, commodities, and other financial instruments on margin carries a high level of risk and may not be suitable for all investors. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite.</p>
+                <div class="text-center text-gray-500 text-sm">
+                    <span>&copy; 2024 Trading Hub. All Rights Reserved.</span> |
+                    <a href="#" class="hover:text-gold">Privacy Policy</a> |
+                    <a href="#" class="hover:text-gold">Terms of Service</a>
+                </div>
+            </div>
+        </div>
     </footer>
     
     <!-- WhatsApp Chat Icon -->
@@ -316,13 +423,11 @@
         <i class="fab fa-whatsapp fa-2x"></i>
     </a>
 
-    <!-- Firebase SDKs -->
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        
+        const { createClient } = supabase;
+
         document.addEventListener('DOMContentLoaded', () => {
             // --- DOM Elements ---
             const pages = document.querySelectorAll('.page');
@@ -336,8 +441,13 @@
             const managePostsContainer = document.getElementById('manage-posts-container');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const latestPostsContainer = document.getElementById('latest-posts-container');
+            const uploadFileForm = document.getElementById('upload-file-form');
+            const fileTitleInput = document.getElementById('file-title');
+            const fileUploadInput = document.getElementById('file-upload');
+            const manageFilesContainer = document.getElementById('manage-files-container');
+            const marketFilesContainer = document.getElementById('market-files-container');
 
-            // --- Navigation Function (Global Scope within Module) ---
+            // --- Navigation Function ---
             function switchPage(pageId) {
                 pages.forEach(page => page.classList.remove('active'));
                 const targetPage = document.getElementById(pageId);
@@ -352,13 +462,15 @@
 
             // --- UI Initialization ---
             function initializeUI() {
-                document.querySelectorAll('a[data-page]').forEach(link => {
-                    link.addEventListener('click', e => {
+                // Use event delegation on a parent container
+                document.body.addEventListener('click', (e) => {
+                    const targetLink = e.target.closest('a[data-page]');
+                    if (targetLink) {
                         e.preventDefault();
-                        switchPage(link.dataset.page);
-                    });
+                        switchPage(targetLink.dataset.page);
+                    }
                 });
-                
+
                 if (mobileMenuButton && mobileNav) {
                     mobileMenuButton.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
                 }
@@ -368,22 +480,13 @@
                 }
             }
 
-            // --- Firebase Initialization ---
-            function initializeFirebase() {
+            // --- Supabase Initialization ---
+            function initializeSupabase() {
                 try {
-                    // Your web app's Firebase configuration
-                    const firebaseConfig = {
-                        apiKey: "AIzaSyD_cM4a_ziAyHNPnaucP7yJJJN9hhCkGNU",
-                        authDomain: "trading-hub-blog-c284b.firebaseapp.com",
-                        projectId: "trading-hub-blog-c284b",
-                        storageBucket: "trading-hub-blog-c284b.appspot.com",
-                        messagingSenderId: "34944938874",
-                        appId: "1:34944938874:web:60d498e5977c5537171cc3"
-                    };
+                    const SUPABASE_URL = 'https://jdjrpaefuzyhcjiwrefi.supabase.co';
+                    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkanJwYWVmdXp5aGNqaXdyZWZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU1MzI4ODUsImV4cCI6MjA3MTEwODg4NX0._jadukAG6A33VVB2ENeQ1aydh02hjEsLbVwEDRx7Bbs';
 
-                    const app = initializeApp(firebaseConfig);
-                    const auth = getAuth(app);
-                    const db = getFirestore(app);
+                    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
                     let currentUser = null;
                     const ADMIN_EMAIL = "admin@tradinghub.com";
@@ -406,27 +509,18 @@
                         }
                         desktopNav.insertAdjacentHTML('beforeend', desktopLinks);
                         mobileNav.insertAdjacentHTML('beforeend', mobileLinks);
-                        attachAuthEventListeners();
-                    }
-
-                    function attachAuthEventListeners() {
-                        document.querySelectorAll('a[data-page]').forEach(link => {
-                            link.addEventListener('click', e => {
-                                e.preventDefault();
-                                switchPage(link.dataset.page);
-                            });
-                        });
                         
                         document.getElementById('login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
                         document.getElementById('mobile-login-btn')?.addEventListener('click', (e) => { e.preventDefault(); loginModal.style.display = 'flex'; });
                         document.getElementById('logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
                         document.getElementById('mobile-logout-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleLogout(); });
                     }
-
-                    onAuthStateChanged(auth, user => {
-                        currentUser = user;
-                        updateNavUI(user);
+                    
+                    supabaseClient.auth.onAuthStateChange((event, session) => {
+                        currentUser = session?.user ?? null;
+                        updateNavUI(currentUser);
                     });
+
 
                     loginForm.addEventListener('submit', async (e) => {
                         e.preventDefault();
@@ -434,113 +528,146 @@
                         const password = document.getElementById('login-password').value;
                         const errorEl = document.getElementById('login-error');
                         errorEl.textContent = '';
-                        try {
-                            await signInWithEmailAndPassword(auth, email, password);
+                        
+                        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+                        if (error) {
+                            console.error("Login failed:", error);
+                            errorEl.textContent = "Invalid email or password.";
+                        } else {
                             loginModal.style.display = 'none';
                             loginForm.reset();
-                        } catch (error) {
-                            errorEl.textContent = "Invalid email or password.";
-                            if (error.code === 'auth/user-not-found' && email === ADMIN_EMAIL) {
-                                try {
-                                    await createUserWithEmailAndPassword(auth, email, password);
-                                    await signInWithEmailAndPassword(auth, email, password);
-                                    loginModal.style.display = 'none';
-                                } catch (createError) {
-                                    errorEl.textContent = "Could not create admin account.";
-                                }
-                            }
                         }
                     });
 
                     async function handleLogout() {
-                        await signOut(auth);
+                        await supabaseClient.auth.signOut();
                         switchPage('home');
                     }
 
-                    const postsCollection = collection(db, "posts");
-                    const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
-
+                    // --- Blog Logic ---
                     createPostForm.addEventListener('submit', async (e) => {
                         e.preventDefault();
                         if (!currentUser || currentUser.email !== ADMIN_EMAIL) return alert("You are not authorized.");
                         const title = document.getElementById('post-title').value;
                         const imageUrl = document.getElementById('post-image-url').value;
                         const content = document.getElementById('post-content').value;
-                        try {
-                            await addDoc(postsCollection, { title, imageUrl, content, createdAt: new Date() });
-                            createPostForm.reset();
-                        } catch (error) {
-                            console.error("Error adding document: ", error);
-                        }
+                        
+                        const { error } = await supabaseClient.from('posts').insert([{ title, imageUrl, content }]);
+                        if (error) console.error("Error adding post:", error);
+                        else createPostForm.reset();
                     });
 
-                    onSnapshot(postsQuery, (snapshot) => {
+                    function renderPosts(posts) {
                         let blogHtml = '', manageHtml = '', latestPostsHtml = '';
-                        if (snapshot.empty) {
-                            const noPostsMsg = `<p class="text-center col-span-full">No blog posts yet.</p>`;
+                        if (!posts || posts.length === 0) {
+                             const noPostsMsg = `<p class="text-center col-span-full">No blog posts yet.</p>`;
                             blogHtml = noPostsMsg;
                             manageHtml = `<p class="text-center">No posts to manage.</p>`;
                             latestPostsHtml = noPostsMsg;
                         } else {
-                            snapshot.docs.forEach(doc => {
-                                const post = doc.data();
-                                const postId = doc.id;
-                                
-                                // Card for main blog page
-                                blogHtml += `
-                                    <div class="card rounded-lg overflow-hidden flex flex-col">
-                                        <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';">
-                                        <div class="p-6 flex flex-col flex-grow">
-                                            <h3 class="text-xl font-bold text-white mb-2">${post.title}</h3>
-                                            <p class="text-gray-400 mb-4 flex-grow">${post.content}</p>
-                                            <a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a>
-                                        </div>
-                                    </div>`;
-
-                                // Smaller, clickable card for the home page scroller
-                                latestPostsHtml += `
-                                    <a href="#" data-page="blog" class="block w-64 flex-shrink-0 card rounded-lg overflow-hidden">
-                                        <img src="${post.imageUrl}" alt="${post.title}" class="w-full h-32 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x200/1E1E1E/D4AF37?text=Image+Not+Found';">
-                                        <div class="p-4">
-                                            <h4 class="text-md font-bold text-white truncate">${post.title}</h4>
-                                        </div>
-                                    </a>
-                                `;
-
-                                manageHtml += `
-                                    <div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700">
-                                        <span class="truncate pr-4">${post.title}</span>
-                                        <button data-id="${postId}" class="delete-post-btn text-red-500 hover:text-red-400 font-bold">Delete</button>
-                                    </div>`;
+                            posts.forEach(post => {
+                                blogHtml += `<div class="card rounded-lg overflow-hidden flex flex-col"><img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-bold text-white mb-2">${post.title}</h3><p class="text-gray-400 mb-4 flex-grow">${post.content}</p><a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a></div></div>`;
+                                latestPostsHtml += `<a href="#" data-page="blog" class="block w-64 flex-shrink-0 card rounded-lg overflow-hidden"><img src="${post.imageUrl}" alt="${post.title}" class="w-full h-32 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x200/1E1E1E/D4AF37?text=Image+Not+Found';"><div class="p-4"><h4 class="text-md font-bold text-white truncate">${post.title}</h4></div></a>`;
+                                manageHtml += `<div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700"><span class="truncate pr-4">${post.title}</span><button data-id="${post.id}" class="delete-post-btn text-red-500 hover:text-red-400 font-bold">Delete</button></div>`;
                             });
                         }
                         blogPostsContainer.innerHTML = blogHtml;
                         managePostsContainer.innerHTML = manageHtml;
                         latestPostsContainer.innerHTML = latestPostsHtml;
-
-                        // Re-attach nav listeners after adding new data-page links
-                        attachAuthEventListeners();
-
+                        
                         document.querySelectorAll('.delete-post-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
-                                if (confirm("Are you sure?")) {
-                                    await deleteDoc(doc(db, "posts", e.target.dataset.id));
+                                if (confirm("Are you sure?")) { 
+                                    const { error } = await supabaseClient.from('posts').delete().match({ id: e.target.dataset.id });
+                                    if(error) console.error("Error deleting post:", error);
                                 }
                             });
                         });
-                    });
+                    }
                     
-                    updateNavUI(null);
+                    supabaseClient.from('posts').select('*').order('created_at', { ascending: false }).then(({ data }) => renderPosts(data));
+                    supabaseClient.channel('public:posts').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
+                        supabaseClient.from('posts').select('*').order('created_at', { ascending: false }).then(({ data }) => renderPosts(data));
+                    }).subscribe();
+
+
+                    // --- File Upload Logic ---
+                    uploadFileForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        if (!currentUser || currentUser.email !== ADMIN_EMAIL) return alert("You are not authorized.");
+                        const title = fileTitleInput.value;
+                        const file = fileUploadInput.files[0];
+                        if (!file || !title) return;
+
+                        const filePath = `public/${Date.now()}_${file.name}`;
+                        const { error: uploadError } = await supabaseClient.storage.from('market-files').upload(filePath, file);
+
+                        if (uploadError) {
+                            console.error('Upload Error:', uploadError);
+                            return;
+                        }
+
+                        const { data: { publicUrl } } = supabaseClient.storage.from('market-files').getPublicUrl(filePath);
+
+                        const { error: dbError } = await supabaseClient.from('marketfiles').insert([{ title, downloadURL: publicUrl, filePath: filePath }]);
+                        
+                        if (dbError) console.error("Error adding file link:", dbError);
+                        else uploadFileForm.reset();
+                    });
+
+                    function renderFiles(files) {
+                        let marketFilesHtml = '', manageFilesHtml = '';
+                        if (!files || files.length === 0) {
+                            marketFilesHtml = `<p class="text-center col-span-full">No market files available yet.</p>`;
+                            manageFilesHtml = `<p class="text-center">No files to manage.</p>`;
+                        } else {
+                            files.forEach(file => {
+                                marketFilesHtml += `
+                                    <div class="card p-6 rounded-lg flex flex-col text-center">
+                                        <h3 class="text-xl font-bold text-white mb-4">${file.title}</h3>
+                                        <iframe src="${file.downloadURL}" class="w-full h-64 border-0 mb-4"></iframe>
+                                        <a href="${file.downloadURL}" target="_blank" class="btn-gold font-bold py-2 px-6 rounded-lg mt-auto">Download</a>
+                                    </div>`;
+                                manageFilesHtml += `
+                                    <div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700">
+                                        <span class="truncate pr-4">${file.title}</span>
+                                        <button data-id="${file.id}" data-path="${file.filePath}" class="delete-file-btn text-red-500 hover:text-red-400 font-bold">Delete</button>
+                                    </div>`;
+                            });
+                        }
+                        marketFilesContainer.innerHTML = marketFilesHtml;
+                        manageFilesContainer.innerHTML = manageFilesHtml;
+
+                        document.querySelectorAll('.delete-file-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const docId = e.target.dataset.id;
+                                const path = e.target.dataset.path;
+                                if (confirm("Are you sure?")) {
+                                    const { error: storageError } = await supabaseClient.storage.from('market-files').remove([path]);
+                                    if (storageError) console.error("Error deleting file from storage:", storageError);
+                                    
+                                    const { error: dbError } = await supabaseClient.from('marketfiles').delete().match({ id: docId });
+                                    if(dbError) console.error("Error deleting file record:", dbError);
+                                }
+                            });
+                        });
+                    }
+
+                    supabaseClient.from('marketfiles').select('*').order('created_at', { ascending: false }).then(({ data }) => renderFiles(data));
+                    supabaseClient.channel('public:marketfiles').on('postgres_changes', { event: '*', schema: 'public', table: 'marketfiles' }, () => {
+                        supabaseClient.from('marketfiles').select('*').order('created_at', { ascending: false }).then(({ data }) => renderFiles(data));
+                    }).subscribe();
 
                 } catch (error) {
-                    console.error("Critical Firebase Initialization Error:", error);
+                    console.error("Critical Supabase Initialization Error:", error);
                     document.body.innerHTML = `<div class="text-white text-center p-8">Could not connect to the server. Please check your connection and try again.</div>`;
                 }
             }
 
             // --- Run Initializers ---
             initializeUI();
-            initializeFirebase();
+            initializeSupabase();
         });
     </script>
 </body>
