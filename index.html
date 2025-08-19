@@ -234,7 +234,133 @@
         <div id="markets" class="page">
            <section class="py-16 sm:py-24 bg-dark-secondary">
                 <div class="container mx-auto px-6">
-                    <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 text-white">Market Analysis & Resources</h1>
+                    <h1 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white">Live Market Data</h1>
+                    
+                    <!-- Market Overview Widget -->
+                    <div class="mb-16">
+                        <h2 class="text-3xl font-bold mb-8 text-center">Market Overview</h2>
+                        <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container" style="height:500px; width:100%">
+                          <div class="tradingview-widget-container__widget"></div>
+                          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                          {
+                          "colorTheme": "dark",
+                          "dateRange": "12M",
+                          "showChart": true,
+                          "locale": "en",
+                          "largeChartUrl": "",
+                          "isTransparent": true,
+                          "showSymbolLogo": true,
+                          "showFloatingTooltip": false,
+                          "width": "100%",
+                          "height": "100%",
+                          "plotLineColorGrowing": "rgba(41, 98, 255, 1)",
+                          "plotLineColorFalling": "rgba(41, 98, 255, 1)",
+                          "gridLineColor": "rgba(42, 46, 57, 0)",
+                          "scaleFontColor": "rgba(120, 123, 134, 1)",
+                          "belowLineFillColorGrowing": "rgba(41, 98, 255, 0.12)",
+                          "belowLineFillColorFalling": "rgba(41, 98, 255, 0.12)",
+                          "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+                          "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+                          "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
+                          "tabs": [
+                            {
+                              "title": "Indices",
+                              "symbols": [
+                                { "s": "FOREXCOM:SPXUSD", "d": "S&P 500" },
+                                { "s": "FOREXCOM:NSXUSD", "d": "US 100" },
+                                { "s": "FOREXCOM:DJI", "d": "Dow 30" },
+                                { "s": "INDEX:NKY", "d": "Nikkei 225" },
+                                { "s": "INDEX:DEU40", "d": "DAX 40" },
+                                { "s": "FOREXCOM:UKXGBP", "d": "UK 100" }
+                              ],
+                              "originalTitle": "Indices"
+                            },
+                            {
+                              "title": "Forex",
+                              "symbols": [
+                                { "s": "FX:EURUSD", "d": "EUR/USD" },
+                                { "s": "FX:GBPUSD", "d": "GBP/USD" },
+                                { "s": "FX:USDJPY", "d": "USD/JPY" },
+                                { "s": "FX:USDCHF", "d": "USD/CHF" },
+                                { "s": "FX:AUDUSD", "d": "AUD/USD" },
+                                { "s": "FX:USDCAD", "d": "USD/CAD" }
+                              ],
+                              "originalTitle": "Forex"
+                            },
+                            {
+                              "title": "Crypto",
+                              "symbols": [
+                                { "s": "BITSTAMP:BTCUSD", "d": "Bitcoin" },
+                                { "s": "BITSTAMP:ETHUSD", "d": "Ethereum" },
+                                { "s": "COINBASE:SOLUSD", "d": "Solana" },
+                                { "s": "COINBASE:XRPUSD", "d": "Ripple" },
+                                { "s": "COINBASE:DOGEUSD", "d": "Dogecoin" }
+                              ],
+                              "originalTitle": "Crypto"
+                            },
+                            {
+                              "title": "Commodities",
+                              "symbols": [
+                                { "s": "OANDA:XAUUSD", "d": "Gold" },
+                                { "s": "OANDA:XAGUSD", "d": "Silver" },
+                                { "s": "TVC:USOIL", "d": "Crude Oil" },
+                                { "s": "TVC:UKOIL", "d": "Brent Oil" },
+                                { "s": "TVC:NATURALGAS", "d": "Natural Gas" }
+                              ],
+                              "originalTitle": "Commodities"
+                            }
+                          ]
+                        }
+                          </script>
+                        </div>
+                        <!-- TradingView Widget END -->
+                    </div>
+
+                    <!-- Key Instruments Widget -->
+                    <div class="mb-16">
+                        <h2 class="text-3xl font-bold mb-8 text-center">Key Instrument Charts</h2>
+                        <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container">
+                          <div class="tradingview-widget-container__widget"></div>
+                          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                          {
+                          "symbol": "FX:EURUSD",
+                          "width": "100%",
+                          "height": "100%",
+                          "locale": "en",
+                          "dateRange": "12M",
+                          "colorTheme": "dark",
+                          "isTransparent": true,
+                          "autosize": true,
+                          "largeChartUrl": ""
+                        }
+                          </script>
+                        </div>
+                        <!-- TradingView Widget END -->
+                    </div>
+
+                    <!-- Economic Calendar Widget -->
+                    <div class="mb-16">
+                        <h2 class="text-3xl font-bold mb-8 text-center">Economic Calendar</h2>
+                        <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container">
+                          <div class="tradingview-widget-container__widget"></div>
+                          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+                          {
+                          "colorTheme": "dark",
+                          "isTransparent": true,
+                          "width": "100%",
+                          "height": "400",
+                          "locale": "en",
+                          "importanceFilter": "-1,0,1"
+                        }
+                          </script>
+                        </div>
+                        <!-- TradingView Widget END -->
+                    </div>
+                    
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Market Analysis & Resources</h2>
                     <p class="text-lg text-gray-400 text-center max-w-3xl mx-auto mb-16">Download our latest analysis files to stay ahead of the markets.</p>
                     <div id="market-files-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Market files will be loaded here dynamically -->
@@ -257,28 +383,28 @@
         
         <!-- Contact Page -->
         <div id="contact" class="page">
-            <section class="py-16 sm:py-24 bg-dark-secondary">
+            <section class="py-16 sm:py-24 bg-dark">
                 <div class="container mx-auto px-6">
                     <div class="text-center">
                         <h1 class="text-4xl md:text-5xl font-bold text-white">Get In Touch</h1>
                         <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Have a question, suggestion, or feedback? We'd love to hear from you.</p>
                     </div>
-                    <div class="mt-16 max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+                    <div class="mt-16 max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
                         <!-- Contact Form -->
-                        <div class="bg-dark p-8 rounded-lg border border-gray-700">
+                        <div class="bg-dark-secondary p-8 rounded-lg">
                             <h2 class="text-2xl font-bold text-white mb-6">Send us a Message</h2>
                             <form id="contact-form">
                                 <div class="mb-4">
                                     <label for="name" class="block text-gray-300 mb-2">Name</label>
-                                    <input type="text" id="name" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                                    <input type="text" id="name" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-gold" required>
                                 </div>
                                 <div class="mb-4">
                                     <label for="email" class="block text-gray-300 mb-2">Email</label>
-                                    <input type="email" id="email" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
+                                    <input type="email" id="email" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-gold" required>
                                 </div>
                                 <div class="mb-6">
                                     <label for="message" class="block text-gray-300 mb-2">Message</label>
-                                    <textarea id="message" rows="5" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required></textarea>
+                                    <textarea id="message" rows="5" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-gold" required></textarea>
                                 </div>
                                 <button type="submit" class="btn-gold font-bold w-full py-3 rounded-lg">Submit</button>
                                 <p id="form-status" class="text-center mt-4"></p>
@@ -286,7 +412,30 @@
                         </div>
                         <!-- Contact Info -->
                         <div class="space-y-8">
-                           <!-- Contact details -->
+                           <div class="bg-dark-secondary p-8 rounded-lg">
+                                <h3 class="text-2xl font-bold text-white mb-4">Contact Information</h3>
+                                <ul class="space-y-4 text-gray-300">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-envelope fa-fw mr-3 text-gold"></i>
+                                        <span>support@tradinghub.com</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-phone fa-fw mr-3 text-gold"></i>
+                                        <span>+44 7458 157780</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-map-marker-alt fa-fw mr-3 text-gold"></i>
+                                        <span>123 Trading Lane, London, UK</span>
+                                    </li>
+                                </ul>
+                           </div>
+                           <div class="bg-dark-secondary p-8 rounded-lg">
+                                <h3 class="text-2xl font-bold text-white mb-4">Business Hours</h3>
+                                <ul class="space-y-2 text-gray-300">
+                                    <li>Monday - Friday: 9:00 AM - 5:00 PM GMT</li>
+                                    <li>Saturday, Sunday: Closed</li>
+                                </ul>
+                           </div>
                         </div>
                     </div>
                 </div>
@@ -303,7 +452,6 @@
                     <div class="max-w-2xl mx-auto bg-dark p-8 rounded-lg border border-gray-700">
                         <h2 class="text-2xl font-bold mb-6">Create New Post</h2>
                         <form id="create-post-form">
-                            <!-- Form fields for blog post -->
                             <div class="mb-4">
                                 <label for="post-title" class="block mb-2">Title</label>
                                 <input type="text" id="post-title" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
@@ -312,9 +460,13 @@
                                 <label for="post-image-url" class="block mb-2">Image URL</label>
                                 <input type="url" id="post-image-url" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required>
                             </div>
-                            <div class="mb-6">
+                            <div class="mb-4">
                                 <label for="post-content" class="block mb-2">Content (Excerpt)</label>
                                 <textarea id="post-content" rows="5" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required></textarea>
+                            </div>
+                             <div class="mb-6">
+                                <label for="post-full-content" class="block mb-2">Full Blog Content</label>
+                                <textarea id="post-full-content" rows="10" class="w-full bg-gray-800 border border-gray-600 rounded-lg p-2" required></textarea>
                             </div>
                             <button type="submit" class="btn-gold font-bold w-full py-3 rounded-lg">Publish Post</button>
                         </form>
@@ -367,6 +519,19 @@
             </form>
         </div>
     </div>
+    
+    <!-- Blog Post Modal -->
+    <div id="blog-post-modal" class="fixed inset-0 z-50 items-center justify-center hidden modal p-4">
+        <div class="modal-content w-full max-w-4xl h-full lg:h-5/6 p-6 rounded-lg border border-gray-700 flex flex-col">
+            <button id="close-blog-modal" class="self-end text-3xl text-gray-400 hover:text-white">&times;</button>
+            <div class="overflow-y-auto">
+                <img id="blog-modal-image" src="" alt="Blog Post Image" class="w-full h-64 object-cover rounded-lg mb-6">
+                <h2 id="blog-modal-title" class="text-3xl font-bold mb-4"></h2>
+                <div id="blog-modal-content" class="text-gray-300 leading-relaxed"></div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Footer -->
     <footer class="bg-dark-secondary border-t border-gray-700">
@@ -446,6 +611,8 @@
             const fileUploadInput = document.getElementById('file-upload');
             const manageFilesContainer = document.getElementById('manage-files-container');
             const marketFilesContainer = document.getElementById('market-files-container');
+            const blogPostModal = document.getElementById('blog-post-modal');
+            const closeBlogModalButton = document.getElementById('close-blog-modal');
 
             // --- Navigation Function ---
             function switchPage(pageId) {
@@ -477,6 +644,9 @@
                 
                 if(closeModalButton) {
                     closeModalButton.addEventListener('click', () => loginModal.style.display = 'none');
+                }
+                 if(closeBlogModalButton) {
+                    closeBlogModalButton.addEventListener('click', () => blogPostModal.style.display = 'none');
                 }
             }
 
@@ -552,8 +722,9 @@
                         const title = document.getElementById('post-title').value;
                         const imageUrl = document.getElementById('post-image-url').value;
                         const content = document.getElementById('post-content').value;
+                        const full_content = document.getElementById('post-full-content').value;
                         
-                        const { error } = await supabaseClient.from('posts').insert([{ title, imageUrl, content }]);
+                        const { error } = await supabaseClient.from('posts').insert([{ title, imageUrl, content, full_content }]);
                         if (error) console.error("Error adding post:", error);
                         else createPostForm.reset();
                     });
@@ -567,7 +738,7 @@
                             latestPostsHtml = noPostsMsg;
                         } else {
                             posts.forEach(post => {
-                                blogHtml += `<div class="card rounded-lg overflow-hidden flex flex-col"><img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-bold text-white mb-2">${post.title}</h3><p class="text-gray-400 mb-4 flex-grow">${post.content}</p><a href="#" class="btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</a></div></div>`;
+                                blogHtml += `<div class="card rounded-lg overflow-hidden flex flex-col"><img src="${post.imageUrl}" alt="${post.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1E1E1E/D4AF37?text=Image+Not+Found';"><div class="p-6 flex flex-col flex-grow"><h3 class="text-xl font-bold text-white mb-2">${post.title}</h3><p class="text-gray-400 mb-4 flex-grow">${post.content}</p><button data-id="${post.id}" class="read-more-btn btn-gold font-bold py-2 px-4 rounded-lg text-center mt-auto">Read More</button></div></div>`;
                                 latestPostsHtml += `<a href="#" data-page="blog" class="block w-64 flex-shrink-0 card rounded-lg overflow-hidden"><img src="${post.imageUrl}" alt="${post.title}" class="w-full h-32 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x200/1E1E1E/D4AF37?text=Image+Not+Found';"><div class="p-4"><h4 class="text-md font-bold text-white truncate">${post.title}</h4></div></a>`;
                                 manageHtml += `<div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700"><span class="truncate pr-4">${post.title}</span><button data-id="${post.id}" class="delete-post-btn text-red-500 hover:text-red-400 font-bold">Delete</button></div>`;
                             });
@@ -575,15 +746,6 @@
                         blogPostsContainer.innerHTML = blogHtml;
                         managePostsContainer.innerHTML = manageHtml;
                         latestPostsContainer.innerHTML = latestPostsHtml;
-                        
-                        document.querySelectorAll('.delete-post-btn').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                if (confirm("Are you sure?")) { 
-                                    const { error } = await supabaseClient.from('posts').delete().match({ id: e.target.dataset.id });
-                                    if(error) console.error("Error deleting post:", error);
-                                }
-                            });
-                        });
                     }
                     
                     supabaseClient.from('posts').select('*').order('created_at', { ascending: false }).then(({ data }) => renderPosts(data));
@@ -624,11 +786,15 @@
                         } else {
                             files.forEach(file => {
                                 marketFilesHtml += `
-                                    <div class="card p-6 rounded-lg flex flex-col text-center">
+                                    <div class="card p-6 rounded-lg flex flex-col items-center text-center">
+                                        <i class="fas fa-file-alt fa-3x text-gold mb-4"></i>
                                         <h3 class="text-xl font-bold text-white mb-4">${file.title}</h3>
-                                        <iframe src="${file.downloadURL}" class="w-full h-64 border-0 mb-4"></iframe>
-                                        <a href="${file.downloadURL}" target="_blank" class="btn-gold font-bold py-2 px-6 rounded-lg mt-auto">Download</a>
-                                    </div>`;
+                                        <div class="flex space-x-2 mt-auto">
+                                            <a href="${file.downloadURL}" target="_blank" class="btn-gold font-bold py-2 px-4 rounded-lg">Preview</a>
+                                            <a href="${file.downloadURL}" download class="btn-gold font-bold py-2 px-4 rounded-lg">Download</a>
+                                        </div>
+                                    </div>
+                                `;
                                 manageFilesHtml += `
                                     <div class="bg-dark p-4 rounded-lg flex justify-between items-center border border-gray-700">
                                         <span class="truncate pr-4">${file.title}</span>
@@ -638,26 +804,44 @@
                         }
                         marketFilesContainer.innerHTML = marketFilesHtml;
                         manageFilesContainer.innerHTML = manageFilesHtml;
-
-                        document.querySelectorAll('.delete-file-btn').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                const docId = e.target.dataset.id;
-                                const path = e.target.dataset.path;
-                                if (confirm("Are you sure?")) {
-                                    const { error: storageError } = await supabaseClient.storage.from('market-files').remove([path]);
-                                    if (storageError) console.error("Error deleting file from storage:", storageError);
-                                    
-                                    const { error: dbError } = await supabaseClient.from('marketfiles').delete().match({ id: docId });
-                                    if(dbError) console.error("Error deleting file record:", dbError);
-                                }
-                            });
-                        });
                     }
 
                     supabaseClient.from('marketfiles').select('*').order('created_at', { ascending: false }).then(({ data }) => renderFiles(data));
                     supabaseClient.channel('public:marketfiles').on('postgres_changes', { event: '*', schema: 'public', table: 'marketfiles' }, () => {
                         supabaseClient.from('marketfiles').select('*').order('created_at', { ascending: false }).then(({ data }) => renderFiles(data));
                     }).subscribe();
+
+                    // Event delegation for delete and read more buttons
+                    document.body.addEventListener('click', async (e) => {
+                        if (e.target.classList.contains('delete-post-btn')) {
+                            if (confirm("Are you sure?")) { 
+                                const { error } = await supabaseClient.from('posts').delete().match({ id: e.target.dataset.id });
+                                if(error) console.error("Error deleting post:", error);
+                            }
+                        }
+                        if (e.target.classList.contains('delete-file-btn')) {
+                            const docId = e.target.dataset.id;
+                            const path = e.target.dataset.path;
+                            if (confirm("Are you sure?")) {
+                                const { error: storageError } = await supabaseClient.storage.from('market-files').remove([path]);
+                                if (storageError) console.error("Error deleting file from storage:", storageError);
+                                
+                                const { error: dbError } = await supabaseClient.from('marketfiles').delete().match({ id: docId });
+                                if(dbError) console.error("Error deleting file record:", dbError);
+                            }
+                        }
+                        if (e.target.classList.contains('read-more-btn')) {
+                            const postId = e.target.dataset.id;
+                            const { data, error } = await supabaseClient.from('posts').select('*').eq('id', postId).single();
+                            if (data) {
+                                document.getElementById('blog-modal-image').src = data.imageUrl;
+                                document.getElementById('blog-modal-title').textContent = data.title;
+                                const contentToShow = data.full_content || data.content;
+                                document.getElementById('blog-modal-content').innerHTML = contentToShow.replace(/\n/g, '<br>');
+                                blogPostModal.style.display = 'flex';
+                            }
+                        }
+                    });
 
                 } catch (error) {
                     console.error("Critical Supabase Initialization Error:", error);
